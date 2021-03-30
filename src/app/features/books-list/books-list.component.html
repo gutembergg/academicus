@@ -1,0 +1,7 @@
+<ion-content>
+    <ul>
+        <li *ngFor="let book of books$ | async">
+            {{ book.volumeInfo.title }}
+        </li>
+    </ul>
+</ion-content>

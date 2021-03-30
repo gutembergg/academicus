@@ -1,0 +1,25 @@
+<ion-content>
+    <ion-grid class="home" fixed="true">
+        <ion-row class="ion-justify-content-center ion-align-items-center ion-text-center">
+            <ion-col>
+                <img src="../../../assets/academicus_logo.svg" alt="d">
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-tabs *ngIf="user">
+    <ion-tab-bar slot="bottom">
+
+        <ion-tab-button tab="book-list">
+            <ion-icon name="list"></ion-icon>
+            <ion-label>list</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="home">
+            <ion-icon name="home"></ion-icon>
+            <ion-label>home</ion-label>
+        </ion-tab-button>
+
+    </ion-tab-bar>
+</ion-tabs>
