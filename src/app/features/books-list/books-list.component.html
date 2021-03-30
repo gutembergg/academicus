@@ -4,4 +4,9 @@
             {{ book.volumeInfo.title }}
         </li>
     </ul>
+    <ul>
+        <li *ngFor="let book of booksList | async">
+            {{ book.volumeInfo.title }}
+        </li>
+    </ul>
 </ion-content>

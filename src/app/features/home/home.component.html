@@ -8,5 +8,11 @@
 </ion-header>
 
 <ion-content>
-    <ion-searchbar></ion-searchbar>
+    <ion-searchbar (ionInput)="searchBooks($event)" type="text"></ion-searchbar>
+
+    <ion-list [hidden]="listBooks.length <= 0">
+        <ion-item *ngFor="let item of listBooks">
+            {{ item.title }}
+        </ion-item>
+    </ion-list>
 </ion-content>
