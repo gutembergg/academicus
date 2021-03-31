@@ -25,6 +25,13 @@ const routes: Routes = [
           import("../books-detail/books-detail.module").then(
             (m) => m.BooksDetailModule
           )
+      },
+      {
+        path: "user-profile",
+        loadChildren: () =>
+          import("../user-profile/user-profile.module").then(
+            (m) => m.UserProfileModule
+          )
       }
     ]
   }

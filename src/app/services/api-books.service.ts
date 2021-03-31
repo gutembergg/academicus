@@ -30,8 +30,9 @@ export class ApiBooksService {
 
   async getBooks(title: string) {
     const response = await this._http.get<any>(`${apiUrl}${title}`).toPromise();
-    console.log(response.volumeInfo?.title);
-    this.subject$.next(response.items);
+    this.subject$.next(
+      response.items.map((item) => console.log(item.volumeInfo.title))
+    );
   }
 
   listDB(): IList[] {

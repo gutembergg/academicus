@@ -23,7 +23,11 @@ export class BooksListComponent implements OnInit {
 
   async getApibooks() {
     await this._apiBooksService.getBooks("2001 l'odyssey de l'espace");
-    console.log(this._apiBooksService.data$);
     this.booksList = this._apiBooksService.data$;
+    console.log(this.booksList);
+  }
+
+  selected(item) {
+    console.log("Event", item);
   }
 }

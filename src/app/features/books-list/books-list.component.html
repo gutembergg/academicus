@@ -1,12 +1,12 @@
 <ion-content>
     <ul>
-        <li *ngFor="let book of books$ | async">
+        <li (click)="selected(item)" *ngFor="let book of books$ | async">
             {{ book.volumeInfo.title }}
         </li>
     </ul>
-    <ul>
+    <!--  <ul>
         <li *ngFor="let book of booksList | async">
-            {{ book.volumeInfo.title }}
+            {{ book.volumeInfo.authors }}
         </li>
-    </ul>
+    </ul> -->
 </ion-content>
