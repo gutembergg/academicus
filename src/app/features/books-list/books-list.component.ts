@@ -18,14 +18,14 @@ export class BooksListComponent implements OnInit {
     this.books$ = this._apiBooksService
       .getBook("2001 l'odyssey de l'espace")
       .pipe(map((book) => book));
-    this.getApibooks();
+    /* this.getApibooks(); */
   }
 
-  async getApibooks() {
+  /*   async getApibooks() {
     await this._apiBooksService.getBooks("2001 l'odyssey de l'espace");
     this.booksList = this._apiBooksService.data$;
     console.log(this.booksList);
-  }
+  } */
 
   selected(item) {
     console.log("Event", item);

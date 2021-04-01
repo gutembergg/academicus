@@ -4,8 +4,8 @@ import { BooksDetailComponent } from "./books-detail.component";
 
 const routes: Routes = [
   {
-    path: "",
-    children: [{ path: ":id", component: BooksDetailComponent }]
+    path: ":bk",
+    component: BooksDetailComponent
   }
 ];
 

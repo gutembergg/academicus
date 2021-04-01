@@ -1,3 +1,27 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Profile</ion-title>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
-    <p>ijijiijijijij</p>
+    <ion-searchbar #search type="text"></ion-searchbar>
+
+    <ion-button (click)="getApibooks(search.value)" color="primary" expand="block" fill="solid">Valider</ion-button>
+
+    <ion-list>
+        <ion-item *ngFor="let book of booksList | async">
+            <ion-thumbnail slot="start">
+                <img [src]="book.volumeInfo.imageLinks.smallThumbnail">
+            </ion-thumbnail>
+            <ion-label [routerLink]="['/pages/book-detail']">
+                <ion-text>
+                    <h2><strong>{{ book.volumeInfo.title }}</strong> </h2>
+                </ion-text>
+                <ion-text>
+                    <h5>{{ book.volumeInfo.authors }}</h5>
+                </ion-text>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

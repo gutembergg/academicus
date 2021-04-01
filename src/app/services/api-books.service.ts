@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { map } from "rxjs/operators";
 import { IList } from "../interfaces/IList";
+import { IBook } from "../interfaces/IBook";
 
 const apiUrl = environment.apiBooksUrl;
 
@@ -20,6 +21,8 @@ export class ApiBooksService {
   subject$: BehaviorSubject<any> = new BehaviorSubject(null);
   data$: Observable<any> = this.subject$.asObservable();
 
+  book: IBook;
+
   constructor(private _http: HttpClient) {}
 
   getBook(title: string): Observable<any> {
@@ -28,11 +31,17 @@ export class ApiBooksService {
       .pipe(map((data: any) => data.items));
   }
 
-  async getBooks(title: string) {
+  async searchApiBook(title: string) {
     const response = await this._http.get<any>(`${apiUrl}${title}`).toPromise();
-    this.subject$.next(
-      response.items.map((item) => console.log(item.volumeInfo.title))
-    );
+    this.subject$.next(response.items.map((item) => item));
+  }
+
+  bookSelected(book: any) {
+    console.log(book);
+    const titleBook = book.volumeInfo.title;
+    const authors = book.volumeInfo.authors;
+    const image = book.volumeInfo.imageLinks.smallThumbnail;
+    const publisher = book.volumeInfo.publisher;
   }
 
   listDB(): IList[] {
