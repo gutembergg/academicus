@@ -10,7 +10,7 @@
     <ion-button (click)="getApibooks(search.value)" color="primary" expand="block" fill="solid">Valider</ion-button>
 
     <ion-list>
-        <ion-item *ngFor="let book of booksList | async">
+        <ion-item (click)="seletedBook(book)" *ngFor="let book of booksList | async">
             <ion-thumbnail slot="start">
                 <img [src]="book.volumeInfo.imageLinks.smallThumbnail">
             </ion-thumbnail>

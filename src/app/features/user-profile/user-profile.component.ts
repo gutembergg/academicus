@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { NavigationExtras, Router } from "@angular/router";
+import { IBook } from "src/app/interfaces/IBook";
 import { ApiBooksService } from "src/app/services/api-books.service";
 
 @Component({
@@ -8,8 +10,14 @@ import { ApiBooksService } from "src/app/services/api-books.service";
 })
 export class UserProfileComponent implements OnInit {
   booksList: any;
+  bookSelected: IBook = {
+    title: "",
+    authors: "",
+    image: "",
+    publisher: ""
+  };
 
-  constructor(private _apiService: ApiBooksService) {}
+  constructor(private _apiService: ApiBooksService, private _router: Router) {}
 
   ngOnInit(): void {}
 
@@ -20,6 +28,20 @@ export class UserProfileComponent implements OnInit {
 
   seletedBook(book: any) {
     this._apiService.bookSelected(book);
-    console.log(book);
+    this.bookSelected = {
+      ...this.bookSelected,
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors[0],
+      image: book.volumeInfo.imageLinks.smallThumbnail,
+      publisher: book.volumeInfo.publisher
+    };
+
+    const navigationData: NavigationExtras = {
+      queryParams: this.bookSelected
+    };
+
+    this._router.navigate(["/pages/book-detail"], navigationData);
+
+    console.log("this.bookSelected", this.bookSelected);
   }
 }

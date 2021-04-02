@@ -1,5 +1,13 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+
+const categoryList = [
+  "droit",
+  "medicine",
+  "histoire",
+  "economie",
+  "astronomie"
+];
 
 @Component({
   selector: "app-books-detail",
@@ -8,13 +16,11 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class BooksDetailComponent implements OnInit {
   theBook: any;
-  constructor(private _route: ActivatedRoute) {}
+  form: string[] = categoryList;
+  constructor(private _router: Router, private _route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    /*  this._route.params.subscribe((params) => {
-      this.theBook = params["book"];
-    });
-
-    console.log(this.theBook); */
+    this._route.queryParams.subscribe((book) => (this.theBook = book));
+    console.log("this.theBook", this.theBook);
   }
 }

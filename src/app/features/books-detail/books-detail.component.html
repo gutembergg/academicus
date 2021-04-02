@@ -1,3 +1,51 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{ theBook.title }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
-    Book detail
+    <ion-card>
+        <ion-card-header>
+            <ion-img [src]="theBook.image"></ion-img>
+            <ion-grid>
+                <ion-row class="ion-justify-content-center">
+                    <ion-card-title>{{ theBook.title }}</ion-card-title>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                    <ion-card-subtitle>{{ theBook.authors }}</ion-card-subtitle>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                    <ion-text>
+                        Éditeur:
+                    </ion-text>
+                    {{ theBook.publisher }}
+                </ion-row>
+            </ion-grid>
+        </ion-card-header>
+    </ion-card>
+
+
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            Sélectionnez une categories et faite votre offre pour ce livre
+        </ion-row>
+    </ion-grid>
+
+    <ion-list>
+        <ion-radio-group>
+            <ion-list-header>
+                <ion-label>
+                    Categories
+                </ion-label>
+            </ion-list-header>
+
+            <ion-item *ngFor="let entry of form; let i=index">
+                <ion-label>{{ entry }}</ion-label>
+                <ion-radio></ion-radio>
+            </ion-item>
+
+        </ion-radio-group>
+    </ion-list>
+
 </ion-content>
