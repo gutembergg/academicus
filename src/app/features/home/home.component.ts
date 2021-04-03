@@ -28,4 +28,8 @@ export class HomeComponent implements OnInit {
 
     this.listBooks = items;
   }
+
+  loadData($event) {
+    console.log($event);
+  }
 }

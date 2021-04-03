@@ -28,24 +28,43 @@
 
     <ion-grid>
         <ion-row class="ion-justify-content-center">
-            Sélectionnez une categories et faite votre offre pour ce livre
+            <ion-text>
+                <p class="info_text">Sélectionnez une categories et faite votre offre pour ce livre</p>
+            </ion-text>
         </ion-row>
     </ion-grid>
 
-    <ion-list>
-        <ion-radio-group>
-            <ion-list-header>
-                <ion-label>
-                    Categories
-                </ion-label>
-            </ion-list-header>
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label>Categories</ion-label>
+                        <ion-select (ionChange)="selectCategory($event)" okText="Okay" cancelText="Dismiss" required>
+                            <ion-select-option *ngFor="let entry of categories; let i=index" [value]="entry">{{ entry }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-textarea #offer placeholder="Offre" required></ion-textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button (click)="registerBook(offer.value)" expand="full">Enregister</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
 
-            <ion-item *ngFor="let entry of form; let i=index">
-                <ion-label>{{ entry }}</ion-label>
-                <ion-radio></ion-radio>
-            </ion-item>
-
-        </ion-radio-group>
-    </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>

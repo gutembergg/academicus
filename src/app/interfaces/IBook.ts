@@ -5,4 +5,5 @@ export interface IBook {
   image: string;
   publisher: string;
   category?: string;
+  offer?: string;
 }

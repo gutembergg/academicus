@@ -31,7 +31,9 @@ export class UserProfileComponent implements OnInit {
     this.bookSelected = {
       ...this.bookSelected,
       title: book.volumeInfo.title,
-      authors: book.volumeInfo.authors[0],
+      authors: Array.isArray(book.volumeInfo.authors)
+        ? book.volumeInfo.authors[0]
+        : book.volumeInfo.authors,
       image: book.volumeInfo.imageLinks.smallThumbnail,
       publisher: book.volumeInfo.publisher
     };
