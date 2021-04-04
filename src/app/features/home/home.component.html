@@ -8,13 +8,29 @@
 </ion-header>
 
 <ion-content>
-    <ion-searchbar (ionInput)="searchBooks($event)" type="text"></ion-searchbar>
 
-    <ion-list [hidden]="listBooks.length <= 0">
-        <ion-item *ngFor="let item of listBooks">
-            {{ item.title }}
-        </ion-item>
-    </ion-list>
+    <ion-card>
+        <ion-card-header>
+            <ion-segment (ionChange)="segmentChanged($event)" value="title">
+                <ion-segment-button value="title">
+                    <ion-label>Titre</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="authors">
+                    <ion-label>Author</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-searchbar (ionInput)="searchBooks($event)" type="text"></ion-searchbar>
+
+            <ion-list [hidden]="listBooks.length <= 0">
+                <ion-item (click)="selectedBook(item)" *ngFor="let item of listBooks">
+                    {{ item.title }}
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
     <app-categories></app-categories>
 

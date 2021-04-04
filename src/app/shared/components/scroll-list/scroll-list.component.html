@@ -1,14 +1,17 @@
 <ion-content class="ion-no-padding">
-    <ion-text color="primary">
-        <h4>Title category</h4>
-    </ion-text>
-    <ion-slides [options]="slideOpts">
-        <ion-slide *ngFor="let i of [1,2,3,4,5]">
-            <div>
-                <img class="img_book"
-                    src="http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
-                    alt="test">
-            </div>
-        </ion-slide>
-    </ion-slides>
+    <div class="block">
+        <ion-text color="primary">
+            <h4>{{ defaultCategory }}</h4>
+        </ion-text>
+        <ion-slides [options]="slideOpts">
+            <ion-slide *ngFor="let i of [1,2,3,4,5]">
+                <div>
+                    <img class="img_book"
+                        src="http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
+                        alt="test">
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
 </ion-content>

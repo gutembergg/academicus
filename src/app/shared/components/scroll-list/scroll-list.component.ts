@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 const fakeList = [
   "http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
@@ -10,6 +10,8 @@ const fakeList = [
   styleUrls: ["./scroll-list.component.scss"]
 })
 export class ScrollListComponent implements OnInit {
+  @Input() defaultCategory: string;
+
   slideOpts = {
     slidesPerView: 3,
     coverflowEffect: {

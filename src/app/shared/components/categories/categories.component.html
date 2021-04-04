@@ -1,13 +1,26 @@
 <ion-content>
 
-    <ion-text color="primary">
-        <h1>Categories</h1>
-    </ion-text>
+    <div class="block">
+        <!--  <ion-text color="primary">
+            <h1>Categories</h1>
+        </ion-text>
 
-    <ion-button [appActivedButton] *ngFor="let cat of listCategory; let i = index" color="light" size="small">
-        {{ cat.name }}
-    </ion-button>
+        <ion-button appActivedButton [selectedIndex]="i" id="{{ i }}" (click)="selectCategory($event, i)"
+            *ngFor="let cat of listCategory; let i = index" color="light" size="small">
+            {{ cat.name }}
+        </ion-button> -->
+        <ion-text color="primary">
+            <h1>Categories</h1>
+        </ion-text>
 
-    <app-scroll-list></app-scroll-list>
+        <ion-segment (ionChange)="segmentChanged($event)" [value]="listCategory[0].name" scrollable>
+            <ion-segment-button [value]="cat.name" *ngFor="let cat of listCategory; let i = index">
+                <ion-icon name="{{ cat.icon }}"></ion-icon>
+                <ion-label>{{ cat.name }}</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <app-scroll-list [defaultCategory]="listCategory[0].name"></app-scroll-list>
 
 </ion-content>

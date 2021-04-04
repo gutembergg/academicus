@@ -1,12 +1,15 @@
-:host {
-  background: red;
+ion-content {
+  padding: 20px;
 }
 
-/* ion-content {
-  height: 45vh;
-}
- */
 ion-button {
   margin-right: 8px;
   margin-bottom: 5px;
+}
+ion-button:active {
+  background: red;
+}
+
+.block {
+  margin: 10px;
 }

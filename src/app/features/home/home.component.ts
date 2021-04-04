@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  searchBooks($event) {
+  searchBooks($event: any) {
     const value = $event.target.value;
 
     if (value.length === 0) {
@@ -29,7 +29,11 @@ export class HomeComponent implements OnInit {
     this.listBooks = items;
   }
 
-  loadData($event) {
-    console.log($event);
+  segmentChanged($event: any) {
+    console.log("event", $event);
+  }
+
+  selectedBook(item: any) {
+    console.log(item);
   }
 }
