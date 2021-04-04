@@ -1,0 +1,13 @@
+<ion-content>
+
+    <ion-text color="primary">
+        <h1>Categories</h1>
+    </ion-text>
+
+    <ion-button [appActivedButton] *ngFor="let cat of listCategory; let i = index" color="light" size="small">
+        {{ cat.name }}
+    </ion-button>
+
+    <app-scroll-list></app-scroll-list>
+
+</ion-content>
