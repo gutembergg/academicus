@@ -13,14 +13,15 @@
             <h1>Categories</h1>
         </ion-text>
 
-        <ion-segment (ionChange)="segmentChanged($event)" [value]="listCategory[0].name" scrollable>
-            <ion-segment-button [value]="cat.name" *ngFor="let cat of listCategory; let i = index">
+        <ion-segment [value]="listCategory[0].name" scrollable>
+            <ion-segment-button (click)="selectCategory(cat)" [value]="cat.name"
+                *ngFor="let cat of listCategory; let i = index">
                 <ion-icon name="{{ cat.icon }}"></ion-icon>
                 <ion-label>{{ cat.name }}</ion-label>
             </ion-segment-button>
         </ion-segment>
     </div>
 
-    <app-scroll-list [defaultCategory]="listCategory[0].name"></app-scroll-list>
+    <app-scroll-list [selectCategory]="categorySelected" [defaultCategory]="listCategory[0].name"></app-scroll-list>
 
 </ion-content>

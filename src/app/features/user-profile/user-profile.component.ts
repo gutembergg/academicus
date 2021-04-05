@@ -27,14 +27,13 @@ export class UserProfileComponent implements OnInit {
   }
 
   seletedBook(book: any) {
-    this._apiService.bookSelected(book);
     this.bookSelected = {
       ...this.bookSelected,
       title: book.volumeInfo.title,
       authors: Array.isArray(book.volumeInfo.authors)
         ? book.volumeInfo.authors[0]
         : book.volumeInfo.authors,
-      image: book.volumeInfo.imageLinks.smallThumbnail,
+      image: book.volumeInfo.imageLinks?.smallThumbnail,
       publisher: book.volumeInfo.publisher
     };
 
@@ -43,7 +42,5 @@ export class UserProfileComponent implements OnInit {
     };
 
     this._router.navigate(["/pages/book-detail"], navigationData);
-
-    console.log("this.bookSelected", this.bookSelected);
   }
 }

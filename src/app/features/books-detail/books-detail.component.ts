@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { IBook } from "src/app/interfaces/IBook";
+import { BooksService } from "src/app/services/books/books.service";
 
 const categoryList = [
   "droit",
@@ -20,7 +21,11 @@ export class BooksDetailComponent implements OnInit {
   categories: string[] = categoryList;
   newBook: IBook = {} as IBook;
 
-  constructor(private _router: Router, private _route: ActivatedRoute) {}
+  constructor(
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _firestore: BooksService
+  ) {}
 
   ngOnInit(): void {
     this._route.queryParams.subscribe((book: IBook) => (this.theBook = book));
@@ -35,7 +40,7 @@ export class BooksDetailComponent implements OnInit {
 
   registerBook(value: string) {
     if (this.newBook.category === undefined || value === "") {
-      alert("remplir tout les champs");
+      alert("Remplissez tout les champs");
       return;
     }
     this.newBook = {
@@ -46,6 +51,8 @@ export class BooksDetailComponent implements OnInit {
       publisher: this.theBook.publisher,
       offer: value
     };
+
+    this._firestore.createBook(this.newBook);
     console.log("FinalForm", this.newBook);
   }
 }

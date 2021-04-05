@@ -4,9 +4,11 @@
             {{ book.volumeInfo.title }}
         </li>
     </ul>
-    <!--  <ul>
-        <li *ngFor="let book of booksList | async">
-            {{ book.volumeInfo.authors }}
+
+    <h3>Firestore DB</h3>
+    <ul>
+        <li *ngFor="let book of newBook$ | async">
+            {{ book.title }}
         </li>
-    </ul> -->
+    </ul>
 </ion-content>

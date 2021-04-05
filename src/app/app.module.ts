@@ -6,6 +6,9 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { IonicModule } from "@ionic/angular";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AngularFireModule } from "@angular/fire";
+import { environment } from "src/environments/environment";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +18,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     IonicModule.forRoot()
   ],
   providers: [],

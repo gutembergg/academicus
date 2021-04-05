@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ApiBooksService } from "src/app/services/api-books.service";
+import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
   selector: "app-books-list",
@@ -12,20 +13,20 @@ export class BooksListComponent implements OnInit {
   books$: Observable<any>;
   booksList: Observable<any[]>;
 
-  constructor(private _apiBooksService: ApiBooksService) {}
+  newBook$: Observable<any> | unknown;
+
+  constructor(
+    private _apiBooksService: ApiBooksService,
+    private _firestore: BooksService
+  ) {}
 
   ngOnInit(): void {
     this.books$ = this._apiBooksService
       .getBook("2001 l'odyssey de l'espace")
       .pipe(map((book) => book));
-    /* this.getApibooks(); */
-  }
 
-  /*   async getApibooks() {
-    await this._apiBooksService.getBooks("2001 l'odyssey de l'espace");
-    this.booksList = this._apiBooksService.data$;
-    console.log(this.booksList);
-  } */
+    this.newBook$ = this._firestore.books$.pipe(map((item) => item));
+  }
 
   selected(item) {
     console.log("Event", item);

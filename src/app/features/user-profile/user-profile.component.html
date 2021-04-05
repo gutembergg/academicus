@@ -12,7 +12,8 @@
     <ion-list>
         <ion-item (click)="seletedBook(book)" *ngFor="let book of booksList | async">
             <ion-thumbnail slot="start">
-                <img [src]="book.volumeInfo.imageLinks.smallThumbnail">
+                <img
+                    [src]="book.volumeInfo.imageLinks?.smallThumbnail ? book.volumeInfo.imageLinks?.smallThumbnail : '../../../assets/book-cover-placeholder.jpg'">
             </ion-thumbnail>
             <ion-label [routerLink]="['/pages/book-detail']">
                 <ion-text>

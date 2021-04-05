@@ -22,15 +22,13 @@ const categoriesList = [
 export class CategoriesComponent implements OnInit {
   listCategory: any[] = categoriesList;
 
+  categorySelected: any;
+
   constructor() {}
 
   ngOnInit(): void {}
 
-  selectCategory($event, i) {
-    console.log(categoriesList[i]);
-  }
-
-  segmentChanged($event) {
-    console.log($event);
+  selectCategory(category) {
+    this.categorySelected = category;
   }
 }

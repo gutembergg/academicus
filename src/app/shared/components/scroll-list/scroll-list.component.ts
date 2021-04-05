@@ -11,6 +11,7 @@ const fakeList = [
 })
 export class ScrollListComponent implements OnInit {
   @Input() defaultCategory: string;
+  @Input() selectCategory: any;
 
   slideOpts = {
     slidesPerView: 3,

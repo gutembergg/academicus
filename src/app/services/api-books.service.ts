@@ -8,12 +8,6 @@ import { IBook } from "../interfaces/IBook";
 
 const apiUrl = environment.apiBooksUrl;
 
-const list = [
-  { title: "2001 l'odyssey de l'espace", authors: "Arthur Clark" },
-  { title: "A arte da guerra", authors: "Sun Tzu" },
-  { title: "nous ami les terriens", authors: "Bernard Webber" }
-];
-
 @Injectable({
   providedIn: "root"
 })
@@ -34,17 +28,5 @@ export class ApiBooksService {
   async searchApiBook(title: string) {
     const response = await this._http.get<any>(`${apiUrl}${title}`).toPromise();
     this.subject$.next(response.items.map((item) => item));
-  }
-
-  bookSelected(book: any) {
-    console.log(book);
-    const titleBook = book.volumeInfo.title;
-    const authors = book.volumeInfo.authors;
-    const image = book.volumeInfo.imageLinks.smallThumbnail;
-    const publisher = book.volumeInfo.publisher;
-  }
-
-  listDB(): IList[] {
-    return list;
   }
 }
