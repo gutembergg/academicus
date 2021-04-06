@@ -1,27 +1,34 @@
 <ion-content>
 
     <div class="block">
-        <!--  <ion-text color="primary">
-            <h1>Categories</h1>
-        </ion-text>
-
-        <ion-button appActivedButton [selectedIndex]="i" id="{{ i }}" (click)="selectCategory($event, i)"
-            *ngFor="let cat of listCategory; let i = index" color="light" size="small">
-            {{ cat.name }}
-        </ion-button> -->
         <ion-text color="primary">
             <h1>Categories</h1>
         </ion-text>
 
-        <ion-segment [value]="listCategory[0].name" scrollable>
-            <ion-segment-button (click)="selectCategory(cat)" [value]="cat.name"
-                *ngFor="let cat of listCategory; let i = index">
+        <ion-segment [value]="defaultCategory" scrollable>
+            <ion-segment-button (click)="selectCategory(cat)" [value]="cat.id"
+                *ngFor="let cat of (categoryList$ | async); let i = index">
                 <ion-icon name="{{ cat.icon }}"></ion-icon>
                 <ion-label>{{ cat.name }}</ion-label>
             </ion-segment-button>
         </ion-segment>
     </div>
 
-    <app-scroll-list [selectCategory]="categorySelected" [defaultCategory]="listCategory[0].name"></app-scroll-list>
+    <div class="block_list">
+        <ion-text color="primary">
+            <h4>{{ categorySelected?.name ? categorySelected?.name : defaultCategory?.name }}</h4>
+        </ion-text>
+        <ion-slides [options]="slideOpts">
+            <ion-slide *ngFor="let i of [1,2,3,4,5]">
+                <div>
+                    <img class="img_book"
+                        src="http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
+                        alt="test">
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+    <!--  <app-scroll-list [selectCategory]="categorySelected" [defaultCategory]="defaultCategory"></app-scroll-list> -->
 
 </ion-content>

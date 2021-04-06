@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+import { IBook } from "src/app/interfaces/IBook";
+import { ICategory } from "src/app/interfaces/ICategory";
+import { BooksService } from "src/app/services/books/books.service";
 
 const fakeList = [
   "http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
@@ -10,8 +14,10 @@ const fakeList = [
   styleUrls: ["./scroll-list.component.scss"]
 })
 export class ScrollListComponent implements OnInit {
-  @Input() defaultCategory: string;
-  @Input() selectCategory: any;
+  @Input() defaultCategory: ICategory;
+  @Input() selectCategory: ICategory;
+
+  bookCategory: any;
 
   slideOpts = {
     slidesPerView: 3,
@@ -24,7 +30,11 @@ export class ScrollListComponent implements OnInit {
     }
   };
 
-  constructor() {}
+  constructor(private _firestore: BooksService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.bookCategory = this._firestore.getBooksByCategory(
+      this.defaultCategory
+    );
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
+import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { BooksService } from "src/app/services/books/books.service";
 
@@ -10,7 +11,7 @@ import { BooksService } from "src/app/services/books/books.service";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   listItems: any[] = [];
-  dbBooks: IBook[] = [];
+  dbBooks$: Observable<IBook[]> = null;
   subscription: Subscription;
   authorsList: string[] = [];
   seachFomat = "titre";
@@ -18,14 +19,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private _firestore: BooksService) {}
 
   ngOnInit(): void {
-    this.subscription = this._firestore.books$.subscribe((response: any) => {
-      this.dbBooks = response;
-
-      response.map((item) => this.authorsList.push(item.authors));
-    });
+    this.dbBooks$ = this._firestore.books$.pipe(
+      tap((response) =>
+        response.map((res) => this.authorsList.push(res.authors))
+      )
+    );
+    this.subscription = this.dbBooks$.subscribe();
   }
 
-  searchBooks($event: any) {
+  async searchBooks($event: any) {
     const value = $event.target.value;
 
     if (value.length === 0) {
@@ -33,16 +35,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const books = await this.dbBooks$.pipe(first()).toPromise();
+
     if (this.seachFomat === "titre") {
-      const list = this.dbBooks;
-      const items = list.filter((item) =>
+      const items = books.filter((item) =>
         item.title.toLocaleLowerCase().includes(value)
       );
 
       this.listItems = items;
     } else {
-      const list = this.authorsList;
-      const items = list.filter((item) =>
+      const onceAuthorInList = new Set();
+
+      this.authorsList.forEach((author) => {
+        onceAuthorInList.add(author);
+      });
+
+      const showOnceAuthor = [...onceAuthorInList.values()];
+      const list = showOnceAuthor;
+      const items = list.filter((item: any) =>
         item.toLocaleLowerCase().includes(value)
       );
 
@@ -60,7 +70,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("OnDestroy");
     this.subscription.unsubscribe();
   }
 }

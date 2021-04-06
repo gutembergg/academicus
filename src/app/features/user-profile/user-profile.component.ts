@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { NavigationExtras, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { IBook } from "src/app/interfaces/IBook";
 import { ApiBooksService } from "src/app/services/api-books.service";
+import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
   selector: "app-user-profile",
@@ -17,7 +18,11 @@ export class UserProfileComponent implements OnInit {
     publisher: ""
   };
 
-  constructor(private _apiService: ApiBooksService, private _router: Router) {}
+  constructor(
+    private _apiService: ApiBooksService,
+    private _router: Router,
+    private _bookService: BooksService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -37,10 +42,8 @@ export class UserProfileComponent implements OnInit {
       publisher: book.volumeInfo.publisher
     };
 
-    const navigationData: NavigationExtras = {
-      queryParams: this.bookSelected
-    };
+    this._bookService.set(this.bookSelected);
 
-    this._router.navigate(["/pages/book-detail"], navigationData);
+    this._router.navigate(["/pages/book-detail"]);
   }
 }

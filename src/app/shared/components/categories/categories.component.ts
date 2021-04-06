@@ -1,18 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-
-const categoriesList = [
-  { id: "1", name: "Droit", icon: "briefcase-outline" },
-  { id: "2", name: "Médicine", icon: "medkit-outline" },
-  { id: "3", name: "Histoire", icon: "book-outline" },
-  { id: "4", name: "Físique", icon: "planet-outline" },
-  { id: "5", name: "Chímie", icon: "flask-outline" },
-  { id: "6", name: "Astronomie", icon: "telescope-outline" },
-  { id: "7", name: "Art", icon: "color-palette-outline" },
-  { id: "8", name: "Geographie", icon: "earth-outline" },
-  { id: "9", name: "Économie", icon: "cash-outline" },
-  { id: "10", name: "Pédagogie", icon: "flask-outline" },
-  { id: "11", name: "Architecture", icon: "business-outline" }
-];
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { ICategory } from "src/app/interfaces/ICategory";
+import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
   selector: "app-categories",
@@ -20,15 +10,32 @@ const categoriesList = [
   styleUrls: ["./categories.component.scss"]
 })
 export class CategoriesComponent implements OnInit {
-  listCategory: any[] = categoriesList;
+  categoryList$: Observable<ICategory[]>;
+  defaultCategory: ICategory;
 
   categorySelected: any;
 
-  constructor() {}
+  slideOpts = {
+    slidesPerView: 3,
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true
+    }
+  };
 
-  ngOnInit(): void {}
+  constructor(private _firestore: BooksService) {}
+
+  ngOnInit(): void {
+    this.categoryList$ = this._firestore
+      .getCategories()
+      .pipe(tap((response) => (this.defaultCategory = response[0])));
+  }
 
   selectCategory(category) {
     this.categorySelected = category;
+    this._firestore.getBooksByCategory(category);
   }
 }

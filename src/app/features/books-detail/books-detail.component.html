@@ -41,7 +41,9 @@
                     <ion-item>
                         <ion-label>Categories</ion-label>
                         <ion-select (ionChange)="selectCategory($event)" okText="Okay" cancelText="Dismiss" required>
-                            <ion-select-option *ngFor="let entry of categories; let i=index" [value]="entry">{{ entry }}
+                            <ion-select-option *ngFor="let category of (categoryList$ | async); let i=index"
+                                [value]="category.name">
+                                {{ category.name }}
                             </ion-select-option>
                         </ion-select>
                     </ion-item>

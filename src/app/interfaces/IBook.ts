@@ -4,6 +4,6 @@ export interface IBook {
   authors: string;
   image: string;
   publisher: string;
-  category?: string;
+  categoryId?: string;
   offer?: string;
 }

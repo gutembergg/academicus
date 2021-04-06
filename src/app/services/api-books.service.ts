@@ -2,8 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { map } from "rxjs/operators";
-import { IList } from "../interfaces/IList";
+import { catchError, map } from "rxjs/operators";
 import { IBook } from "../interfaces/IBook";
 
 const apiUrl = environment.apiBooksUrl;
@@ -20,9 +19,13 @@ export class ApiBooksService {
   constructor(private _http: HttpClient) {}
 
   getBook(title: string): Observable<any> {
-    return this._http
-      .get(`${apiUrl}${title}`)
-      .pipe(map((data: any) => data.items));
+    return this._http.get(`${apiUrl}${title}`).pipe(
+      map((data: any) => data.items),
+      catchError((error) => {
+        console.log(error);
+        return error;
+      })
+    );
   }
 
   async searchApiBook(title: string) {
