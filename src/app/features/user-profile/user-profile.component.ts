@@ -18,6 +18,8 @@ export class UserProfileComponent implements OnInit {
     publisher: ""
   };
 
+  toggleForm = false;
+
   constructor(
     private _apiService: ApiBooksService,
     private _router: Router,
@@ -45,5 +47,9 @@ export class UserProfileComponent implements OnInit {
     this._bookService.set(this.bookSelected);
 
     this._router.navigate(["/pages/book-detail"]);
+  }
+
+  toggleBookForm() {
+    this.toggleForm = !this.toggleForm;
   }
 }

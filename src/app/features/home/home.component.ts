@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
+import { BookFindedService } from "src/app/services/book-finded/book-finded.service";
 import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
@@ -16,7 +18,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   authorsList: string[] = [];
   seachFomat = "titre";
 
-  constructor(private _firestore: BooksService) {}
+  constructor(
+    private _firestore: BooksService,
+    private _bookFindedService: BookFindedService,
+    private _router: Router
+  ) {}
 
   ngOnInit(): void {
     this.dbBooks$ = this._firestore.books$.pipe(
@@ -65,8 +71,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log("event", $event.target.value);
   }
 
-  selectedBook(item: any) {
-    console.log(item);
+  selectedBook(book: IBook) {
+    console.log(book);
+    this._bookFindedService.set(book);
+    this._router.navigate(["/pages/home/book-finded"]);
   }
 
   ngOnDestroy(): void {

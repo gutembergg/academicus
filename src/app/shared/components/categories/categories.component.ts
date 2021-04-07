@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
+import { BookFindedService } from "src/app/services/book-finded/book-finded.service";
 import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
@@ -17,6 +19,8 @@ export class CategoriesComponent implements OnInit {
   categorySelected: any;
   booksPerCategory: any;
 
+  booksPerCategory$: Observable<any>;
+
   slideOpts = {
     slidesPerView: 3,
     coverflowEffect: {
@@ -28,12 +32,17 @@ export class CategoriesComponent implements OnInit {
     }
   };
 
-  constructor(private _firestore: BooksService) {}
+  constructor(
+    private _firestore: BooksService,
+    private _findedBook: BookFindedService,
+    private _router: Router
+  ) {}
 
   ngOnInit(): void {
     //revoir //////////////////////////////////
     this.categoryList$ = this._firestore
       .getCategories()
+      .pipe(tap((response) => this.selectCategory(response[0])))
       .pipe(tap((response) => (this.defaultCategory = response[0])));
   }
 
@@ -42,16 +51,13 @@ export class CategoriesComponent implements OnInit {
     this.categorySelected = category;
 
     this._firestore.getBooksByCategory(this.categorySelected);
-    this.booksPerCategory = this._firestore.booksBycategory;
-    console.log("this.categorySelected", this.booksPerCategory);
+
+    this.booksPerCategory$ = this._firestore.booksBycategory$;
   }
 
-  /* async selectCategory2(category) {
-    this.categorySelected = category;
-
-    this.booksPerCategory = await this._firestore.getBooksByCategory2(
-      this.categorySelected
-    );
-    console.log("this.categorySelected", this.booksPerCategory);
-  } */
+  findedBook(book: IBook) {
+    this._findedBook.set(book);
+    console.log("OK", book);
+    this._router.navigate(["/pages/home/book-finded"]);
+  }
 }

@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+    <p>Cherchez votre livre ou ajouter vous même</p>
     <ion-searchbar #search type="text"></ion-searchbar>
 
     <ion-button (click)="getApibooks(search.value)" color="primary" expand="block" fill="solid">Valider</ion-button>
@@ -25,4 +26,33 @@
             </ion-label>
         </ion-item>
     </ion-list>
+
+    <ion-button (click)="toggleBookForm()" color="primary" expand="block">Enregister moi même</ion-button>
+
+    <div *ngIf="toggleForm">
+        <ion-text color="primary">
+            <h4>Ajouter livre</h4>
+        </ion-text>
+        <ion-item>
+            <ion-label position="stacked">Titre</ion-label>
+            <ion-input></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Couverture</ion-label>
+            <ion-input></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Offre</ion-label>
+            <ion-input></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Categorie</ion-label>
+            <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+                <ion-select-option value="brown">Brown</ion-select-option>
+                <ion-select-option value="blonde">Blonde</ion-select-option>
+                <ion-select-option value="black">Black</ion-select-option>
+                <ion-select-option value="red">Red</ion-select-option>
+            </ion-select>
+        </ion-item>
+    </div>
 </ion-content>

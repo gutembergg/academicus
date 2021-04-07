@@ -27,7 +27,7 @@
 
             <ion-list [hidden]="listItems.length <= 0">
                 <ion-item (click)="selectedBook(item)" *ngFor="let item of listItems">
-                    {{ seachFomat === "titre" ? item.title : item }}
+                    {{ seachFomat === "titre" ? item.title.substr(0, 20) : item.substr(0, 20) }}
                 </ion-item>
             </ion-list>
         </ion-row>

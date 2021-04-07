@@ -19,9 +19,9 @@
             <h4>{{ categorySelected?.name ? categorySelected?.name : defaultCategory?.name }}</h4>
         </ion-text>
         <ion-slides [options]="slideOpts">
-            <ion-slide *ngFor="let book of booksPerCategory">
+            <ion-slide *ngFor="let book of ( booksPerCategory$ | async )">
 
-                <ion-grid fixed>
+                <ion-grid fixed (click)="findedBook(book)">
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>
@@ -29,12 +29,8 @@
                         <p>{{ book.title.substr(0, 20) }}</p>
                     </ion-row>
                 </ion-grid>
-
-
             </ion-slide>
         </ion-slides>
     </div>
-
-    <!--  <app-scroll-list [selectCategory]="categorySelected" [defaultCategory]="defaultCategory"></app-scroll-list> -->
 
 </ion-content>

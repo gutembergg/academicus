@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ book.title }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-img [src]="book.image"></ion-img>
+            <ion-grid>
+                <ion-row class="ion-justify-content-center">
+                    <ion-card-title>{{ book.title }}</ion-card-title>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                    <ion-card-subtitle>{{ book.authors }}</ion-card-subtitle>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                    <ion-text>
+                        Éditeur:
+                    </ion-text>
+                    {{ book.publisher }}
+                </ion-row>
+            </ion-grid>
+        </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-content>
+            <p>Offert pour: {{ book.offer }}</p>
+        </ion-card-content>
+        <ion-card-content>
+            <ion-item>
+                <ion-label position="stacked">Mon offre</ion-label>
+                <ion-input></ion-input>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+    <ion-button expand="block">Envoyer</ion-button>
+
+
+</ion-content>

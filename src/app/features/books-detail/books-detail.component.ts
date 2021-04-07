@@ -38,14 +38,12 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
     }
     this.newBook = {
       ...this.newBook,
-      title: this.theBook.title,
-      authors: this.theBook.authors,
+      title: this.theBook.title ? this.theBook.title : "",
+      authors: this.theBook.authors ? this.theBook.authors : "",
       image: this.theBook.image,
       publisher: this.theBook.publisher ? this.theBook.publisher : "",
       offer: value
     };
-
-    console.log("FinalForm", this.newBook);
 
     this._firestore.createBook(this.newBook);
   }
