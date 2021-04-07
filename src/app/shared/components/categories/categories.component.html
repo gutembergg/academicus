@@ -19,12 +19,18 @@
             <h4>{{ categorySelected?.name ? categorySelected?.name : defaultCategory?.name }}</h4>
         </ion-text>
         <ion-slides [options]="slideOpts">
-            <ion-slide *ngFor="let i of [1,2,3,4,5]">
-                <div>
-                    <img class="img_book"
-                        src="http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
-                        alt="test">
-                </div>
+            <ion-slide *ngFor="let book of booksPerCategory">
+
+                <ion-grid fixed>
+                    <ion-row class="ion-justify-content-center">
+                        <img class="img_book" [src]="book.image" alt="test">
+                    </ion-row>
+                    <ion-row class="ion-justify-content-center">
+                        <p>{{ book.title.substr(0, 20) }}</p>
+                    </ion-row>
+                </ion-grid>
+
+
             </ion-slide>
         </ion-slides>
     </div>
