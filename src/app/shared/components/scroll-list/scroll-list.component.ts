@@ -1,12 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { IBook } from "src/app/interfaces/IBook";
-import { ICategory } from "src/app/interfaces/ICategory";
-import { BooksService } from "src/app/services/books/books.service";
 
-const fakeList = [
-  "http://books.google.com/books/content?id=4pOQAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
-];
+import { ICategory } from "src/app/interfaces/ICategory";
 
 @Component({
   selector: "app-scroll-list",
@@ -30,11 +24,7 @@ export class ScrollListComponent implements OnInit {
     }
   };
 
-  constructor(private _firestore: BooksService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.bookCategory = this._firestore.getBooksByCategory(
-      this.defaultCategory
-    );
-  }
+  ngOnInit(): void {}
 }

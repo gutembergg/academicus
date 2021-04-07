@@ -71,10 +71,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log("event", $event.target.value);
   }
 
-  selectedBook(book: IBook) {
-    console.log(book);
-    this._bookFindedService.set(book);
-    this._router.navigate(["/pages/home/book-finded"]);
+  selectedItem(item: IBook) {
+    if (this.seachFomat === "titre") {
+      this._bookFindedService.set(item);
+      this._router.navigate(["/pages/home/book-finded"]);
+    } else {
+      this._router.navigate(["/pages/home/author-finded"], {
+        queryParams: { author: item }
+      });
+    }
   }
 
   ngOnDestroy(): void {
