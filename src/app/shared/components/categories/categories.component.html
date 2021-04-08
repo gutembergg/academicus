@@ -6,7 +6,7 @@
         </ion-text>
 
         <ion-segment [value]="defaultCategory" scrollable>
-            <ion-segment-button (click)="selectCategory(cat)" [value]="cat.id"
+            <ion-segment-button (click)="selectCategory(cat)" [value]="cat.name"
                 *ngFor="let cat of (categoryList$ | async); let i = index">
                 <ion-icon name="{{ cat.icon }}"></ion-icon>
                 <ion-label>{{ cat.name }}</ion-label>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { IBook } from "src/app/interfaces/IBook";
@@ -10,7 +10,7 @@ import { InterestService } from "src/app/services/interest/interest.service";
   templateUrl: "./book-finded.component.html",
   styleUrls: ["./book-finded.component.scss"]
 })
-export class BookFindedComponent implements OnInit {
+export class BookFindedComponent implements OnInit, OnDestroy {
   form: FormGroup;
   subscription: Subscription;
   book: IBook;
@@ -24,7 +24,6 @@ export class BookFindedComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this._bookFindedService.get().subscribe((response) => {
       this.book = response;
-      console.log(response);
     });
 
     this.form = this._formBuilder.group({
@@ -34,7 +33,10 @@ export class BookFindedComponent implements OnInit {
   }
 
   onSubmit() {
-    this._inerestService.createInterest(this.form.value);
-    console.log("Submit", this.form.value);
+    this._inerestService.createInterest(this.form.value, this.book.id);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

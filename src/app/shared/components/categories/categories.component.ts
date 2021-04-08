@@ -40,10 +40,10 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     //revoir //////////////////////////////////
-    this.categoryList$ = this._firestore
-      .getCategories()
-      .pipe(tap((response) => this.selectCategory(response[0])))
-      .pipe(tap((response) => (this.defaultCategory = response[0])));
+    this.categoryList$ = this._firestore.getCategories().pipe(
+      tap((response) => (this.defaultCategory = response[0])),
+      tap((response) => this.selectCategory(response[0]))
+    );
   }
 
   //revoir cette function////////////////////
@@ -57,7 +57,6 @@ export class CategoriesComponent implements OnInit {
 
   findedBook(book: IBook) {
     this._findedBook.set(book);
-    console.log("OK", book);
     this._router.navigate(["/pages/home/book-finded"]);
   }
 }

@@ -28,7 +28,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dbBooks$ = this._firestore.books$.pipe(
       tap((response) =>
         response.map((res) => this.authorsList.push(res.authors))
-      )
+      ),
+      tap((resp) => console.log("resp", resp))
     );
     this.subscription = this.dbBooks$.subscribe();
   }

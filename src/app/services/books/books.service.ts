@@ -4,6 +4,7 @@ import {
   AngularFirestoreCollection
 } from "@angular/fire/firestore";
 import { BehaviorSubject, Observable } from "rxjs";
+import { first, map } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 
@@ -25,14 +26,22 @@ export class BooksService {
 
   constructor(private _firestore: AngularFirestore) {
     this.colections = this._firestore.collection("books");
-    this.books$ = this.colections.valueChanges();
+    this.books$ = this.colections.snapshotChanges().pipe(
+      map((response) =>
+        response.map((res) => {
+          const data = res.payload.doc.data();
+          const id = res.payload.doc.id;
+
+          return { id, ...data };
+        })
+      )
+    );
     this.categories$ = this._firestore
       .collection<ICategory>("categories")
       .valueChanges();
   }
 
   createBook(book: IBook) {
-    console.log("bookSErvice", book);
     this._firestore
       .collection("books")
       .add(book)
@@ -44,17 +53,13 @@ export class BooksService {
       });
   }
 
-  //revoir cette function/////////////////////////////////////////
-  getBooksByCategory(category: ICategory) {
-    this._firestore
-      .collection("books")
-      .valueChanges()
-      .subscribe((response: any) => {
-        const result = response.filter(
-          (item: IBook) => item.categoryId === category.name
-        );
-        this.categorySujet$.next(result);
-      });
+  async getBooksByCategory(category: ICategory) {
+    const result = await this.books$.pipe(first()).toPromise();
+
+    const bookByCategory = result.filter(
+      (response: IBook) => response.categoryId === category.name
+    );
+    this.categorySujet$.next(bookByCategory);
   }
 
   getCategories() {

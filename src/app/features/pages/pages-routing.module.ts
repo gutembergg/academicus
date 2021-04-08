@@ -32,6 +32,13 @@ const routes: Routes = [
           import("../user-profile/user-profile.module").then(
             (m) => m.UserProfileModule
           )
+      },
+      {
+        path: "login",
+        loadChildren: () =>
+          import("../authentication/authentication.module").then(
+            (m) => m.AuthenticationModule
+          )
       }
     ]
   }
