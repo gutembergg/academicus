@@ -18,18 +18,11 @@ export class ApiBooksService {
 
   constructor(private _http: HttpClient) {}
 
-  getBook(title: string): Observable<any> {
-    return this._http.get(`${apiUrl}${title}`).pipe(
-      map((data: any) => data.items),
-      catchError((error) => {
-        console.log(error);
-        return error;
-      })
-    );
-  }
-
   async searchApiBook(title: string) {
     const response = await this._http.get<any>(`${apiUrl}${title}`).toPromise();
     this.subject$.next(response.items.map((item) => item));
+
+    console.log("api-res", response);
+    return response;
   }
 }

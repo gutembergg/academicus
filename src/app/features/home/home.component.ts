@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { first, tap } from "rxjs/operators";
@@ -21,7 +22,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private _firestore: BooksService,
     private _bookFindedService: BookFindedService,
-    private _router: Router
+    private _router: Router,
+    private _authService: AngularFireAuth
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +83,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         queryParams: { author: item }
       });
     }
+  }
+
+  signOut() {
+    this._authService.signOut();
+    this._router.navigate(["pages/login"]);
   }
 
   ngOnDestroy(): void {

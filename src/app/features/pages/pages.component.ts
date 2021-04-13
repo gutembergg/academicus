@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
   selector: "app-pages",
@@ -9,27 +9,11 @@ import { Router } from "@angular/router";
 export class PagesComponent implements OnInit {
   user: boolean;
 
-  constructor(private _router: Router) {}
+  constructor(private _authService: AngularFireAuth) {}
 
   ngOnInit(): void {
-    this.getUser();
-  }
-
-  getUser() {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 2000);
-    });
-
-    promise.then((value: boolean) => {
-      if (value) {
-        this._router.navigate(["/pages/home"]);
-        this.user = value;
-      } else {
-        this._router.navigate(["/pages/home"]);
-        this.user = value;
-      }
-    });
+    this._authService.onAuthStateChanged((user) =>
+      user ? (this.user = true) : (this.user = false)
+    );
   }
 }

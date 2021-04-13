@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { IBook } from "src/app/interfaces/IBook";
 import { ApiBooksService } from "src/app/services/api-books.service";
 import { BooksService } from "src/app/services/books/books.service";
+import { CameraService } from "src/app/services/camera/camera.service";
 
 @Component({
   selector: "app-user-profile",
@@ -18,12 +19,15 @@ export class UserProfileComponent implements OnInit {
     publisher: ""
   };
 
+  photoUrl: any;
+
   toggleForm = false;
 
   constructor(
     private _apiService: ApiBooksService,
     private _router: Router,
-    private _bookService: BooksService
+    private _bookService: BooksService,
+    private _cameraService: CameraService
   ) {}
 
   ngOnInit(): void {}
@@ -51,5 +55,13 @@ export class UserProfileComponent implements OnInit {
 
   toggleBookForm() {
     this.toggleForm = !this.toggleForm;
+  }
+
+  async takePhoto() {
+    const imgUrl = await this._cameraService.takePhoto();
+
+    console.log("imgUrl", imgUrl);
+
+    this.photoUrl = imgUrl;
   }
 }
