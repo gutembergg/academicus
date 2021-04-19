@@ -1,9 +1,9 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="end">
-            <ion-button [routerLink]="['../login']" routerLinkActive="router-link-active" color="primary" expand="block"
-                fill="solid">Login</ion-button>
-            <ion-button (click)="signOut()" shape="round">
+            <ion-button [ngStyle]="{'display': (user && 'none')}" [routerLink]="['/pages/login']"
+                routerLinkActive="router-link-active" color="primary" expand="block" fill="solid">Login</ion-button>
+            <ion-button *ngIf="user" (click)="signOut()" shape="round">
                 SignOut
             </ion-button>
         </ion-buttons>

@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   authorsList: string[] = [];
   seachFomat = "titre";
 
+  user: boolean;
+
   constructor(
     private _firestore: BooksService,
     private _bookFindedService: BookFindedService,
@@ -33,6 +35,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
     );
     this.subscription = this.dbBooks$.subscribe();
+
+    this._authService.onAuthStateChanged((user) =>
+      user ? (this.user = true) : (this.user = false)
+    );
+    console.log("==>HOME");
   }
 
   async searchBooks($event: any) {
