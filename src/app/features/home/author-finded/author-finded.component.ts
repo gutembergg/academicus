@@ -38,6 +38,8 @@ export class AuthorFindedComponent implements OnInit, OnDestroy {
     });
 
     this.authorBooks = this._authorsFindedService.get();
+
+    this.subscription = this.authorBooks.subscribe();
   }
 
   ngOnDestroy(): void {
