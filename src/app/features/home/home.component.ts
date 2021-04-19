@@ -30,8 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dbBooks$ = this._firestore.books$.pipe(
       tap((response) =>
         response.map((res) => this.authorsList.push(res.authors))
-      ),
-      tap((resp) => console.log("resp", resp))
+      )
     );
     this.subscription = this.dbBooks$.subscribe();
   }
@@ -52,7 +51,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
 
       this.listItems = items;
-    } else {
+    }
+    if (this.seachFomat === "authors") {
       const onceAuthorInList = new Set();
 
       this.authorsList.forEach((author) => {
@@ -77,8 +77,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedItem(item: IBook) {
     if (this.seachFomat === "titre") {
       this._bookFindedService.set(item);
+      this.listItems = [];
       this._router.navigate(["/pages/home/book-finded"]);
     } else {
+      this.listItems = [];
       this._router.navigate(["/pages/home/author-finded"], {
         queryParams: { author: item }
       });
