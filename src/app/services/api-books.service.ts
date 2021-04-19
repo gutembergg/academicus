@@ -14,7 +14,7 @@ export class ApiBooksService {
   async searchApiBook(title: string) {
     const response = await this._http
       .get<any>(`${apiUrl}${title}`)
-      .pipe(catchError(async (error) => console.log("error: ", error)))
+      .pipe(catchError(async (error) => console.log("error:", error)))
       .toPromise();
     return response;
   }
