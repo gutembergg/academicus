@@ -33,8 +33,8 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {}
 
   async getApibooks(title: string) {
-    await this._apiService.searchApiBook(title);
-    this.booksList = this._apiService.data$;
+    const response = await this._apiService.searchApiBook(title);
+    this.booksList = response.items;
   }
 
   seletedBook(book: any) {
