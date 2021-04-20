@@ -15,7 +15,9 @@ export class BooksService {
   subjectData$: BehaviorSubject<any> = new BehaviorSubject(null);
   book$: Observable<IBook> = this.subjectData$.asObservable();
 
-  books$: Observable<any[]>;
+  booksSubject$: BehaviorSubject<any> = new BehaviorSubject(null);
+  books$: Observable<IBook[]>;
+
   colections: AngularFirestoreCollection<any>;
 
   categories$: Observable<ICategory[]>;
@@ -26,16 +28,27 @@ export class BooksService {
 
   constructor(private _firestore: AngularFirestore) {
     this.colections = this._firestore.collection("books");
-    this.books$ = this.colections.snapshotChanges().pipe(
-      map((response) =>
-        response.map((res) => {
-          const data = res.payload.doc.data();
-          const id = res.payload.doc.id;
+    this.books$ = this.colections
+      .snapshotChanges(["added", "modified", "removed"])
+      .pipe(
+        map((response) =>
+          response.map((res) => {
+            const data = res.payload.doc.data();
+            const id = res.payload.doc.id;
 
-          return { id, ...data };
-        })
-      )
-    );
+            return { id, ...data };
+          })
+        )
+      );
+    /*  .subscribe((newData) => {
+        const currentState = this.booksSubject$.value.filter(
+          (product) => !newData.find((newP) => newP.key === product.key)
+        );
+        const newState = [...currentState, ...newData];
+        console.log("newState", newState);
+        this.booksSubject$.next(newState);
+      }); */
+
     this.categories$ = this._firestore
       .collection<ICategory>("categories")
       .valueChanges();
@@ -53,6 +66,7 @@ export class BooksService {
       });
   }
 
+  //Revoir cette function ////////////////////////////////////////7
   async getBooksByCategory(category: ICategory) {
     const result = await this.books$.pipe(first()).toPromise();
 

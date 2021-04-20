@@ -14,7 +14,7 @@ import { BooksService } from "src/app/services/books/books.service";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   listItems: any[] = [];
-  dbBooks$: Observable<IBook[]> = null;
+  dbBooks$: Observable<IBook[]>;
   subscription: Subscription;
   authorsList: string[] = [];
   seachFomat = "titre";
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (this.seachFomat === "titre") {
       const items = books.filter((item) =>
-        item.title.toLocaleLowerCase().includes(value)
+        item.title.toLowerCase().includes(value.toLowerCase())
       );
 
       this.listItems = items;
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const showOnceAuthor = [...onceAuthorInList.values()];
       const list = showOnceAuthor;
       const items = list.filter((item: any) =>
-        item.toLocaleLowerCase().includes(value)
+        item.toLowerCase().includes(value.toLowerCase())
       );
 
       this.listItems = items;

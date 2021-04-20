@@ -21,6 +21,9 @@ export class CategoriesComponent implements OnInit {
 
   booksPerCategory$: Observable<any>;
 
+  max = 10;
+  min = 0;
+
   slideOpts = {
     slidesPerView: 3,
     coverflowEffect: {
@@ -46,7 +49,6 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  //revoir cette function////////////////////
   selectCategory(category) {
     this.categorySelected = category;
 
@@ -58,5 +60,10 @@ export class CategoriesComponent implements OnInit {
   findedBook(book: IBook) {
     this._findedBook.set(book);
     this._router.navigate(["/pages/home/book-finded"]);
+  }
+
+  async loadData($event) {
+    this.max = this.max + 10;
+    $event.target.complete();
   }
 }
