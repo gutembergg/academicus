@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 import { BookFindedService } from "src/app/services/book-finded/book-finded.service";
@@ -41,12 +41,16 @@ export class CategoriesComponent implements OnInit {
     private _router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     //revoir //////////////////////////////////
-    this.categoryList$ = this._firestore.getCategories().pipe(
-      tap((response) => (this.defaultCategory = response[0])),
-      tap((response) => this.selectCategory(response[0]))
-    );
+    this.categoryList$ = this._firestore.getCategories();
+    const dafaultCategories = await this.categoryList$
+      .pipe(first())
+      .toPromise();
+
+    this.defaultCategory = dafaultCategories[0];
+
+    this.selectCategory(this.defaultCategory);
   }
 
   selectCategory(category) {

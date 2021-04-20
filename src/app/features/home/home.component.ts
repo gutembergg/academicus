@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._authService.onAuthStateChanged((user) =>
       user ? (this.user = true) : (this.user = false)
     );
-    console.log("==>HOME");
   }
 
   async searchBooks($event: any) {
@@ -54,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (this.seachFomat === "titre") {
       const items = books.filter((item) =>
-        item.title.toLowerCase().includes(value.toLowerCase())
+        item.title.toLocaleLowerCase().includes(value.toLocaleLowerCase())
       );
 
       this.listItems = items;
@@ -69,7 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const showOnceAuthor = [...onceAuthorInList.values()];
       const list = showOnceAuthor;
       const items = list.filter((item: any) =>
-        item.toLowerCase().includes(value.toLowerCase())
+        item.toLocaleLowerCase().includes(value.toLocaleLowerCase())
       );
 
       this.listItems = items;

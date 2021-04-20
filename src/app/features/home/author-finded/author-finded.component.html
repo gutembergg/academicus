@@ -19,7 +19,7 @@
 
         <ion-slides [options]="slideOpts">
             <ion-slide *ngFor="let book of (authorBooks | async)">
-                <ion-grid fixed>
+                <ion-grid (click)="selectBook(book)" fixed>
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>
