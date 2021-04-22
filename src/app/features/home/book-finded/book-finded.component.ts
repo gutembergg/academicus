@@ -33,6 +33,11 @@ export class BookFindedComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (this.form.value.offer === "" || this.form.value.contact === "") {
+      alert("remplissez tout les champs");
+      return;
+    }
+
     this._inerestService.createInterest(this.form.value, this.book.id);
   }
 

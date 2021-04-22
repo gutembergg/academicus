@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { AngularFireStorage } from "@angular/fire/storage";
 
 import { Camera, CameraResultType, CameraSource } from "@capacitor/core";
 
@@ -6,7 +7,7 @@ import { Camera, CameraResultType, CameraSource } from "@capacitor/core";
   providedIn: "root"
 })
 export class CameraService {
-  constructor() {}
+  constructor(private _fireStorage: AngularFireStorage) {}
 
   public async takePhoto(): Promise<any> {
     const imgUrl = await Camera.getPhoto({
@@ -14,7 +15,10 @@ export class CameraService {
       source: CameraSource.Camera,
       quality: 100
     });
-    console.log("capturedPhoto", imgUrl);
+
+    /*  this._fireStorage.ref(`files/${imgUrl.webPath}`).put(imgUrl.webPath); */
+
+    console.log("capturedPhoto", imgUrl.webPath);
 
     return imgUrl.webPath;
   }

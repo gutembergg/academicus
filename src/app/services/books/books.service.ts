@@ -54,6 +54,14 @@ export class BooksService {
       .valueChanges();
   }
 
+  /*   private _updateState(res: any[]): void {
+    const currentState = this._items$.value;
+    // using Set() to exclude duplicate item
+    const SetList = new Set([...currentState, ...res]);
+    const newState = [...SetList];
+    this._items$.next(newState);
+  } */
+
   createBook(book: IBook) {
     this._firestore
       .collection("books")

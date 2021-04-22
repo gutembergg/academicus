@@ -1,6 +1,14 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { PagesComponent } from "./pages.component";
+import {
+  AngularFireAuthGuard,
+  canActivate,
+  redirectUnauthorizedTo
+} from "@angular/fire/auth-guard";
+
+const redirectUnauthorizedToLogin = () =>
+  redirectUnauthorizedTo(["pages/login"]);
 
 const routes: Routes = [
   {
@@ -21,6 +29,7 @@ const routes: Routes = [
       },
       {
         path: "book-detail",
+        ...canActivate(redirectUnauthorizedToLogin),
         loadChildren: () =>
           import("../books-detail/books-detail.module").then(
             (m) => m.BooksDetailModule
@@ -28,6 +37,7 @@ const routes: Routes = [
       },
       {
         path: "user-profile",
+        ...canActivate(redirectUnauthorizedToLogin),
         loadChildren: () =>
           import("../user-profile/user-profile.module").then(
             (m) => m.UserProfileModule

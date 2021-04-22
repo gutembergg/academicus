@@ -27,7 +27,7 @@ export class UserProfileComponent implements OnInit {
     private _apiService: ApiBooksService,
     private _router: Router,
     private _bookService: BooksService,
-    private _cameraService: CameraService
+    public cameraService: CameraService
   ) {}
 
   ngOnInit(): void {}
@@ -58,7 +58,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   async takePhoto() {
-    const imgUrl = await this._cameraService.takePhoto();
+    const imgUrl = await this.cameraService.takePhoto();
 
     console.log("imgUrl", imgUrl);
 

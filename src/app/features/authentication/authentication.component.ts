@@ -32,7 +32,7 @@ export class AuthenticationComponent implements OnInit {
   authentication() {
     const { email, password } = this.form.value;
 
-    if (email !== "" && password !== "") {
+    if (email !== "" || password !== "") {
       this._authService.signIn(email, password);
     } else {
       alert("Remplissez tout les champs");
