@@ -5,9 +5,10 @@ import { AuthenticationRoutingModule } from "./authentication-routing.module";
 import { AuthenticationComponent } from "./authentication.component";
 import { IonicModule } from "@ionic/angular";
 import { ReactiveFormsModule } from "@angular/forms";
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [AuthenticationComponent],
+  declarations: [AuthenticationComponent, RegisterComponent],
   imports: [
     CommonModule,
     AuthenticationRoutingModule,

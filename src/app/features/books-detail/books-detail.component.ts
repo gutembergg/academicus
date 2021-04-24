@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/auth";
 import { Observable, Subscription } from "rxjs";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
@@ -15,7 +16,10 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   categoryList$: Observable<ICategory[]>;
 
-  constructor(private _firestore: BooksService) {}
+  constructor(
+    private _firestore: BooksService,
+    private _angularAuth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this._firestore
@@ -31,13 +35,19 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
     };
   }
 
-  registerBook(value: string) {
+  async registerBook(value: string) {
     if (this.newBook.categoryId === undefined || value === "") {
       alert("Remplissez tout les champs");
       return;
     }
+
+    const userID = await this._angularAuth.currentUser.then(
+      (response) => response.uid
+    );
+
     this.newBook = {
       ...this.newBook,
+      userId: userID,
       title: this.theBook.title ? this.theBook.title : "",
       authors: this.theBook.authors ? this.theBook.authors : "",
       image: this.theBook.image,

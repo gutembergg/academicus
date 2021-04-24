@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { first } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
+import { ICategory } from "src/app/interfaces/ICategory";
 import { ApiBooksService } from "src/app/services/api-books.service";
 import { BooksService } from "src/app/services/books/books.service";
 import { CameraService } from "src/app/services/camera/camera.service";
@@ -11,6 +15,7 @@ import { CameraService } from "src/app/services/camera/camera.service";
   styleUrls: ["./user-profile.component.scss"]
 })
 export class UserProfileComponent implements OnInit {
+  book: IBook;
   booksList: any;
   bookSelected: IBook = {
     title: "",
@@ -18,19 +23,38 @@ export class UserProfileComponent implements OnInit {
     image: "",
     publisher: ""
   };
+  categorySeleted: string;
+  categoriesList: ICategory[];
 
   photoUrl: any;
-
   toggleForm = false;
+  form: FormGroup;
 
   constructor(
     private _apiService: ApiBooksService,
     private _router: Router,
     private _bookService: BooksService,
-    public cameraService: CameraService
+    public cameraService: CameraService,
+    private _formBuilder: FormBuilder,
+    private _angularAuth: AngularFireAuth
   ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    this.form = this._formBuilder.group({
+      userId: ["", Validators.required],
+      title: ["", Validators.required],
+      authors: ["", Validators.required],
+      category: [""],
+      image: ["", Validators.required],
+      publisher: ["", Validators.required],
+      offer: ["", Validators.required]
+    });
+
+    this.categoriesList = await this._bookService
+      .getCategories()
+      .pipe(first())
+      .toPromise();
+  }
 
   async getApibooks(title: string) {
     const response = await this._apiService.searchApiBook(title);
@@ -63,5 +87,39 @@ export class UserProfileComponent implements OnInit {
     console.log("imgUrl", imgUrl);
 
     this.photoUrl = imgUrl;
+  }
+
+  selectCategory($event: { detail: { value: string } }) {
+    const {
+      detail: { value }
+    } = $event;
+
+    this.categorySeleted = value;
+    console.log("event", value);
+  }
+
+  async registerMySelfBook(
+    title: string,
+    author: string,
+    publish: string,
+    offer: string
+  ) {
+    const userID = await this._angularAuth.currentUser.then(
+      (response) => response.uid
+    );
+    const _book = {
+      ...this.book,
+      userId: userID,
+      title,
+      author,
+      image: this.photoUrl,
+      publish,
+      categoryId: this.categorySeleted,
+      offer
+    };
+
+    this._bookService.createBook(_book);
+
+    this.toggleForm = false;
   }
 }
