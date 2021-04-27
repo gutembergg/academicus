@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
 
       const showOnceAuthor = [...onceAuthorInList.values()];
-      const list = showOnceAuthor;
+      const list = showOnceAuthor.filter(Boolean);
       const items = list.filter((item: any) =>
         item.toLocaleLowerCase().includes(value.toLocaleLowerCase())
       );

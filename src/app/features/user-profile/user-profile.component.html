@@ -6,7 +6,7 @@
 
 <ion-content>
     <p>Cherchez votre livre ou ajouter vous même</p>
-    <ion-searchbar #search type="text"></ion-searchbar>
+    <ion-searchbar (ionClear)="getEvent($event)" #search type="text"></ion-searchbar>
 
     <ion-button (click)="getApibooks(search.value)" color="primary" expand="block" fill="solid">Valider</ion-button>
 
@@ -30,88 +30,69 @@
     <ion-button (click)="toggleBookForm()" color="primary" expand="block">Enregister moi même</ion-button>
 
     <div *ngIf="toggleForm">
-
-        <!--  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <ion-item>
-                <ion-label position="stacked">Titre</ion-label>
-                <ion-input formControlName="title"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Author</ion-label>
-                <ion-input formControlName="author"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Editeur</ion-label>
-                <ion-input formControlName="publisher"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-button (click)="takePhoto()" expand="block" shape="round">
-                    Photo
-                </ion-button>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Offre</ion-label>
-                <ion-input formControlName="offer"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label>Categorie</ion-label>
-                <ion-select (ionChange)="selectCategory($event)" okText="Ok" cancelText="Cancel">
-                    <ion-select-option *ngFor="let category of categoriesList" [value]="category.name">
-                        {{ category.name }}
-                    </ion-select-option>
-
-                </ion-select>
-            </ion-item>
-
-          
-            <button type="submit" class="btn">Valider</button>
-        </form> -->
-
         <ion-grid fixed>
             <ion-row>
-                <ion-col size="12">
-                    <ion-text color="primary">
-                        <h4>Ajouter livre</h4>
-                    </ion-text>
-                </ion-col>
-                <ion-col size="12">
-                    <ion-item>
-                        <ion-label position="stacked">Titre</ion-label>
-                        <ion-input #title></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label position="stacked">Author</ion-label>
-                        <ion-input #author></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label position="stacked">Editeur</ion-label>
-                        <ion-input #publisher></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-button (click)="takePhoto()" expand="block" shape="round">
-                            Photo
+                <form [formGroup]="form" (ngSubmit)="onSubmit()" class="formSubmit">
+                    <ion-col size="12">
+                        <ion-text color="primary">
+                            <h4>Ajouter livre</h4>
+                        </ion-text>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-label position="stacked">Titre</ion-label>
+                            <ion-input formControlName="title"></ion-input>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-label position="stacked">Author</ion-label>
+                            <ion-input formControlName="author"></ion-input>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-label position="stacked">Editeur</ion-label>
+                            <ion-input formControlName="publisher"></ion-input>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-button (click)="takePhoto()" expand="block">
+                                Photo
+                            </ion-button>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-label position="stacked">Offre</ion-label>
+                            <ion-input formControlName="offer"></ion-input>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-label>Categories</ion-label>
+                            <ion-select formControlName="categoryId" okText="Ok" cancelText="Cancel">
+                                <ion-select-option *ngFor="let category of categoriesList" [value]="category.name">
+                                    {{ category.name }}
+                                </ion-select-option>
+
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="12">
+                        <ion-button expand="block" type="submit" class="btn">
+                            Valider
                         </ion-button>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label position="stacked">Offre</ion-label>
-                        <ion-input #offer></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Categories</ion-label>
-                        <ion-select (ionChange)="selectCategory($event)" okText="Ok" cancelText="Cancel">
-                            <ion-select-option *ngFor="let category of categoriesList" [value]="category.name">
-                                {{ category.name }}
-                            </ion-select-option>
-
-                        </ion-select>
-                    </ion-item>
-
-                    <ion-button expand="block"
-                        (click)="registerMySelfBook(title.value, author.value, publisher.value, offer.value )"
-                        class="btn">
-                        Valider
-                    </ion-button>
-                </ion-col>
+                    </ion-col>
+                </form>
             </ion-row>
         </ion-grid>
     </div>

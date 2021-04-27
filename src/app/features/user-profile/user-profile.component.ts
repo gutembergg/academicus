@@ -43,8 +43,8 @@ export class UserProfileComponent implements OnInit {
     this.form = this._formBuilder.group({
       userId: ["", Validators.required],
       title: ["", Validators.required],
-      authors: ["", Validators.required],
-      category: [""],
+      author: ["", Validators.required],
+      categoryId: ["", Validators.required],
       image: ["", Validators.required],
       publisher: ["", Validators.required],
       offer: ["", Validators.required]
@@ -56,6 +56,7 @@ export class UserProfileComponent implements OnInit {
       .toPromise();
   }
 
+  //Get list from search bar ////////////////////////////////////
   async getApibooks(title: string) {
     const response = await this._apiService.searchApiBook(title);
     this.booksList = response.items;
@@ -83,43 +84,24 @@ export class UserProfileComponent implements OnInit {
 
   async takePhoto() {
     const imgUrl = await this.cameraService.takePhoto();
-
-    console.log("imgUrl", imgUrl);
-
     this.photoUrl = imgUrl;
   }
 
-  selectCategory($event: { detail: { value: string } }) {
-    const {
-      detail: { value }
-    } = $event;
-
-    this.categorySeleted = value;
-    console.log("event", value);
-  }
-
-  async registerMySelfBook(
-    title: string,
-    author: string,
-    publish: string,
-    offer: string
-  ) {
+  async onSubmit() {
     const userID = await this._angularAuth.currentUser.then(
       (response) => response.uid
     );
     const _book = {
-      ...this.book,
+      ...this.form.value,
       userId: userID,
-      title,
-      author,
-      image: this.photoUrl,
-      publish,
-      categoryId: this.categorySeleted,
-      offer
+      image: this.photoUrl
     };
 
     this._bookService.createBook(_book);
-
     this.toggleForm = false;
+  }
+
+  getEvent($event) {
+    this.booksList = [];
   }
 }

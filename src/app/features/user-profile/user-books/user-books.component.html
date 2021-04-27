@@ -2,17 +2,20 @@
     <ion-text color="primary">
         <h1>Mes livres</h1>
     </ion-text>
-    <ion-slides [options]="slideOpts">
-        <ion-slide>
 
-            <ion-grid fixed>
-                <ion-row class="ion-justify-content-center">
-                    <img class="img_book" alt="test">
-                </ion-row>
-                <ion-row class="ion-justify-content-center">
-                    <p>Title Book</p>
-                </ion-row>
-            </ion-grid>
-        </ion-slide>
-    </ion-slides>
+    <div class="block_list">
+        <ion-slides [options]="slideOpts">
+            <ion-slide *ngFor="let book of userBooks$" [routerLink]="['/pages/user-profile/user-book', book.id]"
+                routerLinkActive="router-link-active" (click)="selectBook(book.id)">
+                <ion-grid fixed>
+                    <ion-row class="ion-justify-content-center">
+                        <img class="img_book" [src]="book.image" alt="test">
+                    </ion-row>
+                    <ion-row class="ion-justify-content-center">
+                        <p>{{ book.title.substr(0, 25) }}</p>
+                    </ion-row>
+                </ion-grid>
+            </ion-slide>
+        </ion-slides>
+    </div>
 </ion-content>

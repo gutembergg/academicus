@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Titre</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <ion-card>
+        <ion-card-header>
+            <!--  <ion-img [src]="selectedBook$.image"></ion-img> -->
+            <ion-grid>
+                <ion-row class="ion-justify-content-center">
+                    <ion-card-title>
+                        {{ selectedBook$?.title  }}
+                    </ion-card-title>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                    <!-- <ion-card-subtitle>{{ (selectedBook$ | json)?.authors }}</ion-card-subtitle> -->
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                    <ion-text>
+                        Éditeur:
+                    </ion-text>
+                    <!--  {{ (selectedBook$ | json)?.publisher }} -->
+                </ion-row>
+            </ion-grid>
+        </ion-card-header>
+    </ion-card>
+
+</ion-content>
