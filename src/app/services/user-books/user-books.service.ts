@@ -57,11 +57,8 @@ export class UserBooksService {
 
   getUserBookById(bookId: string) {
     this._firestore
-      .collection("books")
-      .doc(bookId)
-      /* .get()
-      .subscribe((res) => console.log("res==>", res.data())); */
-      .valueChanges({ idField: "_id" })
-      .subscribe((res) => console.log("===>", res));
+      .doc(`books/${bookId}`)
+      .valueChanges({ idField: "id" })
+      .subscribe((res) => this._bookDetail$.next(res));
   }
 }

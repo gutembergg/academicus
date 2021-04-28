@@ -3,31 +3,91 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Titre</ion-title>
+        <ion-title>Éditer / Supprimer</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
 
     <ion-card>
         <ion-card-header>
-            <!--  <ion-img [src]="selectedBook$.image"></ion-img> -->
+            <ion-img class="image" [src]="selectedBook$?.image">
+            </ion-img>
             <ion-grid>
                 <ion-row class="ion-justify-content-center">
                     <ion-card-title>
-                        {{ selectedBook$?.title  }}
+                        {{ selectedBook$?.title }}
                     </ion-card-title>
                 </ion-row>
+
                 <ion-row class="ion-justify-content-center">
-                    <!-- <ion-card-subtitle>{{ (selectedBook$ | json)?.authors }}</ion-card-subtitle> -->
+                    <ion-card-subtitle>{{ selectedBook$?.authors }}</ion-card-subtitle>
                 </ion-row>
+
                 <ion-row class="ion-justify-content-center">
                     <ion-text>
                         Éditeur:
                     </ion-text>
-                    <!--  {{ (selectedBook$ | json)?.publisher }} -->
+                    {{ selectedBook$?.publisher }}
                 </ion-row>
             </ion-grid>
         </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <ion-card-content>
+                <ion-item>
+                    <ion-button (click)="takePhoto()" expand="block">
+                        Photo
+                    </ion-button>
+                </ion-item>
+            </ion-card-content>
+
+            <ion-card-content>
+                <ion-item>
+                    <ion-label position="stacked">Titre</ion-label>
+                    <ion-input formControlName="title" value="title"></ion-input>
+                </ion-item>
+            </ion-card-content>
+
+            <ion-card-content>
+                <ion-item>
+                    <ion-label position="stacked">Author</ion-label>
+                    <ion-input formControlName="authors"></ion-input>
+                </ion-item>
+            </ion-card-content>
+
+            <ion-card-content>
+                <ion-item>
+                    <ion-label position="stacked">Edition</ion-label>
+                    <ion-input formControlName="publisher"></ion-input>
+                </ion-item>
+            </ion-card-content>
+
+            <ion-card-content>
+                <ion-item>
+                    <ion-label position="stacked">offre</ion-label>
+                    <ion-input formControlName="offer"></ion-input>
+                </ion-item>
+            </ion-card-content>
+
+            <ion-card-content>
+                <ion-item>
+                    <ion-label>Categories</ion-label>
+                    <ion-select [placeholder]="selectedBook$?.categoryId" formControlName="category"
+                        [value]="selectedBook$?.categoryId" okText="Ok" cancelText="Cancel">
+                        <ion-select-option *ngFor="let category of categories" [value]="category.name">
+                            {{ category.name }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-card-content>
+
+            <ion-button type="submit" [disabled]="form.invalid" expand="block">
+                Click me
+            </ion-button>
+
+        </form>
     </ion-card>
 
 </ion-content>

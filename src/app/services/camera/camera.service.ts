@@ -44,7 +44,6 @@ export class CameraService {
 
     const url = await ref.getDownloadURL().toPromise();
 
-    console.log("url: ", url);
     return url;
   }
 

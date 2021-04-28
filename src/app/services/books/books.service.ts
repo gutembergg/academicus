@@ -96,4 +96,9 @@ export class BooksService {
   get() {
     return this.book$;
   }
+
+  updateBook(book: { id: string; bookInfo: IBook }) {
+    console.log("BookServeice: ", book.id, book.bookInfo);
+    /*  this._firestore.collection<IBook>("books").doc(book.id).set(book.bookInfo); */
+  }
 }

@@ -43,7 +43,7 @@ export class UserProfileComponent implements OnInit {
     this.form = this._formBuilder.group({
       userId: ["", Validators.required],
       title: ["", Validators.required],
-      author: ["", Validators.required],
+      authors: ["", Validators.required],
       categoryId: ["", Validators.required],
       image: ["", Validators.required],
       publisher: ["", Validators.required],
