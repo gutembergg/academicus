@@ -35,7 +35,6 @@ export class BooksService {
           response.map((res) => {
             const data = res.payload.doc.data();
             const id = res.payload.doc.id;
-            console.log("Book service!!!!!!!");
             return { id, ...data };
           })
         )
@@ -83,6 +82,8 @@ export class BooksService {
     );
 
     this.categorySujet$.next(bookByCategory);
+
+    return bookByCategory;
   }
 
   getCategories() {

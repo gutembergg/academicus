@@ -10,14 +10,14 @@ export class InterestService {
 
   createInterest(values: IInterest, bookId: string) {
     this._firestore
-      .collection("interest")
+      .collection(`interest`)
       .add(values)
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
 
-        this._firestore.collection("books").doc(bookId).update({
+        /* this._firestore.collection("books").doc(bookId).update({
           interestId: docRef.id
-        });
+        }); */
       })
       .catch((error) => {
         console.error("Error adding document: ", error);

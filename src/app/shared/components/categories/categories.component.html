@@ -19,9 +19,9 @@
             <h4>{{ categorySelected?.name ? categorySelected?.name : defaultCategory?.name }}</h4>
         </ion-text>
         <ion-slides [options]="slideOpts">
-            <ion-slide *ngFor="let book of ( booksPerCategory$ | async )">
+            <ion-slide *ngFor="let book of booksPerCategory$">
 
-                <ion-grid fixed (click)="findedBook(book)">
+                <ion-grid fixed (click)="findedBook(book.id)">
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>

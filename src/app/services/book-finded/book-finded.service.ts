@@ -7,13 +7,20 @@ import { IBook } from "src/app/interfaces/IBook";
   providedIn: "root"
 })
 export class BookFindedService {
-  subjectData$: BehaviorSubject<any> = new BehaviorSubject(null);
-  bookFinded$: Observable<IBook> = this.subjectData$.asObservable();
+  _bookFinded$: BehaviorSubject<any> = new BehaviorSubject(null);
+  bookFinded$: Observable<IBook> = this._bookFinded$.asObservable();
 
-  constructor(private _firstore: AngularFirestore) {}
+  constructor(private _firestore: AngularFirestore) {}
+
+  getUserBookById(bookId: string) {
+    this._firestore
+      .doc(`books/${bookId}`)
+      .valueChanges({ idField: "id" })
+      .subscribe((res) => this._bookFinded$.next(res));
+  }
 
   set(book: IBook) {
-    return this.subjectData$.next(book);
+    return this._bookFinded$.next(book);
   }
 
   get() {

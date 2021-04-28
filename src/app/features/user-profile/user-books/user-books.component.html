@@ -6,7 +6,7 @@
     <div class="block_list">
         <ion-slides [options]="slideOpts">
             <ion-slide *ngFor="let book of userBooks$" [routerLink]="['/pages/user-profile/user-book', book.id]"
-                routerLinkActive="router-link-active" (click)="selectBook(book.id)">
+                (click)="selectBook(book.id)">
                 <ion-grid fixed>
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">

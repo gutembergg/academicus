@@ -84,8 +84,6 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     };
 
     this._bookservice.updateBook(formValues);
-
-    console.log("formValues: ", formValues);
   }
 
   deleteBook(id: string) {

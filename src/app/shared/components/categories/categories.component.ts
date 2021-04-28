@@ -19,7 +19,7 @@ export class CategoriesComponent implements OnInit {
   categorySelected: any;
   booksPerCategory: any;
 
-  booksPerCategory$: Observable<any>;
+  booksPerCategory$: any;
 
   max = 10;
   min = 0;
@@ -56,14 +56,18 @@ export class CategoriesComponent implements OnInit {
   selectCategory(category) {
     this.categorySelected = category;
 
-    this._firestore.getBooksByCategory(this.categorySelected);
+    this._firestore
+      .getBooksByCategory(this.categorySelected)
+      .then((response) => (this.booksPerCategory$ = response))
+      .catch((error) => console.log("error: ", error));
 
-    this.booksPerCategory$ = this._firestore.booksBycategory$;
+    /* this.booksPerCategory$ = this._firestore.booksBycategory$; */
   }
 
-  findedBook(book: IBook) {
-    this._findedBook.set(book);
-    this._router.navigate(["/pages/home/book-finded"]);
+  findedBook(bookId: string) {
+    console.log("bookId: ", bookId);
+    /*  this._findedBook.set(book); */
+    this._router.navigate(["/pages/home/book-finded", bookId]);
   }
 
   async loadData($event) {

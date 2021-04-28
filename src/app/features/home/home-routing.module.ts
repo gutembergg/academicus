@@ -6,7 +6,7 @@ import { HomeComponent } from "./home.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "book-finded", component: BookFindedComponent },
+  { path: "book-finded/:id", component: BookFindedComponent },
   { path: "author-finded", component: AuthorFindedComponent }
 ];
 

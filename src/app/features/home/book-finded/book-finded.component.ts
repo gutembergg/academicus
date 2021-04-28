@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
+import { tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { BookFindedService } from "src/app/services/book-finded/book-finded.service";
 import { InterestService } from "src/app/services/interest/interest.service";
@@ -18,13 +20,19 @@ export class BookFindedComponent implements OnInit, OnDestroy {
   constructor(
     private _bookFindedService: BookFindedService,
     private _formBuilder: FormBuilder,
-    private _inerestService: InterestService
+    private _inerestService: InterestService,
+    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this._bookFindedService.get().subscribe((response) => {
-      this.book = response;
+    this._route.paramMap.subscribe((bookId) => {
+      const id = bookId.get("id");
+      this._bookFindedService.getUserBookById(id);
     });
+
+    this.subscription = this._bookFindedService.bookFinded$
+      .pipe(tap((response) => response))
+      .subscribe((_book) => (this.book = _book));
 
     this.form = this._formBuilder.group({
       offer: ["", Validators.required],
@@ -33,11 +41,6 @@ export class BookFindedComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.form.value.offer === "" || this.form.value.contact === "") {
-      alert("remplissez tout les champs");
-      return;
-    }
-
     this._inerestService.createInterest(this.form.value, this.book.id);
   }
 

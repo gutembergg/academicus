@@ -20,6 +20,9 @@ export class UserBooksService {
   _bookDetail$: BehaviorSubject<any> = new BehaviorSubject(null);
   bookDetail$: Observable<any> = this._bookDetail$.asObservable();
 
+  _isInterest$: BehaviorSubject<any> = new BehaviorSubject(null);
+  isInterest$: Observable<any> = this._isInterest$.asObservable();
+
   constructor(
     private _firestore: AngularFirestore,
     private _angularAuth: AngularFireAuth
@@ -51,6 +54,13 @@ export class UserBooksService {
 
         const newState = [...currentState, ...newData];
         console.log("User book New List", newState);
+
+        newState.map((book) => {
+          if (book.interestId) {
+            this._isInterest$.next(true);
+            console.log("bInterest: ", book);
+          }
+        });
 
         this._userBooks$.next(newState);
       });
