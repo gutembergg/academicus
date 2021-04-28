@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
@@ -16,7 +16,7 @@ import { UserBooksService } from "src/app/services/user-books/user-books.service
 })
 export class BookEditRemoveComponent implements OnInit, OnDestroy {
   selectedBook$: IBook;
-  bookId: string;
+  _bookId: string;
   form: FormGroup;
   categories: ICategory[];
   imageUrl: string;
@@ -28,7 +28,8 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private _bookservice: BooksService,
-    private _cameraService: CameraService
+    private _cameraService: CameraService,
+    private _router: Router
   ) {}
 
   // Si relance mil fois////////////////////////////////////
@@ -51,8 +52,8 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     this.subscription = this._userBookService.bookDetail$
       .pipe(
         tap((response) => this.form.patchValue(response)),
-
-        tap((bookImgUrl) => (this.imageUrl = bookImgUrl?.image))
+        tap((bookImgUrl) => (this.imageUrl = bookImgUrl?.image)),
+        tap((bookId) => (this._bookId = bookId?.id))
       )
       .subscribe((book) => (this.selectedBook$ = book));
 
@@ -78,10 +79,18 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
   onSubmit() {
     const formValues = {
       ...this.form.value,
+      id: this._bookId,
       image: this.imageUrl
     };
 
+    this._bookservice.updateBook(formValues);
+
     console.log("formValues: ", formValues);
+  }
+
+  deleteBook(id: string) {
+    this._userBookService.deleteBook(id);
+    this._router.navigate(["pages/user-profile"]);
   }
 
   ngOnDestroy(): void {

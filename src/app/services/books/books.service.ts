@@ -35,7 +35,7 @@ export class BooksService {
           response.map((res) => {
             const data = res.payload.doc.data();
             const id = res.payload.doc.id;
-
+            console.log("Book service!!!!!!!");
             return { id, ...data };
           })
         )
@@ -97,8 +97,21 @@ export class BooksService {
     return this.book$;
   }
 
-  updateBook(book: { id: string; bookInfo: IBook }) {
-    console.log("BookServeice: ", book.id, book.bookInfo);
-    /*  this._firestore.collection<IBook>("books").doc(book.id).set(book.bookInfo); */
+  updateBook({ id, ...data }) {
+    this._firestore
+      .collection<IBook>("books")
+      .doc(id)
+      .update(data)
+      .then((response) => console.log("Success!!!"))
+      .catch((error) => console.log("error: ", error));
+  }
+
+  deleteBook(id: string) {
+    this._firestore
+      .collection("books")
+      .doc(id)
+      .delete()
+      .then((response) => console.log("book deleted"))
+      .catch((error) => console.log("Error: ", error));
   }
 }

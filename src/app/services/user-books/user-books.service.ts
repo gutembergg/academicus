@@ -50,6 +50,7 @@ export class UserBooksService {
         );
 
         const newState = [...currentState, ...newData];
+        console.log("User book New List", newState);
 
         this._userBooks$.next(newState);
       });
@@ -60,5 +61,14 @@ export class UserBooksService {
       .doc(`books/${bookId}`)
       .valueChanges({ idField: "id" })
       .subscribe((res) => this._bookDetail$.next(res));
+  }
+
+  deleteBook(id: string) {
+    this._firestore
+      .collection("books")
+      .doc(id)
+      .delete()
+      .then((response) => console.log("book deleted"))
+      .catch((error) => console.log("Error: ", error));
   }
 }
