@@ -94,7 +94,8 @@ export class UserProfileComponent implements OnInit {
     const _book = {
       ...this.form.value,
       userId: userID,
-      image: this.photoUrl
+      image: this.photoUrl,
+      interests: 0
     };
 
     this._bookService.createBook(_book);

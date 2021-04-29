@@ -9,7 +9,7 @@ import { UserBooksService } from "src/app/services/user-books/user-books.service
 })
 export class PagesComponent implements OnInit {
   user: any;
-  interestedBook: boolean;
+  interestesBook: boolean;
 
   constructor(
     private _authService: AngularFireAuth,
@@ -23,8 +23,8 @@ export class PagesComponent implements OnInit {
         console.log("isUsewr");
         await this._userBookService.getUserBooks();
 
-        this._userBookService.isInterest$.subscribe(
-          (res) => (this.interestedBook = res)
+        this._userBookService.bookInterest$.subscribe(
+          (res) => (this.interestesBook = res)
         );
       }
     });

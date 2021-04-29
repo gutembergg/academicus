@@ -41,7 +41,11 @@ export class BookFindedComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this._inerestService.createInterest(this.form.value, this.book.id);
+    const _interest = {
+      ...this.form.value,
+      bookId: this.book.id
+    };
+    this._inerestService.createInterest(_interest);
   }
 
   ngOnDestroy(): void {

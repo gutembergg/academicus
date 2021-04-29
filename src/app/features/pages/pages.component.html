@@ -9,6 +9,9 @@
         <ion-tab-button tab="user-profile">
             <ion-icon name="person-circle-outline"></ion-icon>
             <ion-label>profile</ion-label>
+            <ion-badge *ngIf="interestesBook > 0" color="success">
+                <ion-icon name="alert-sharp"></ion-icon>
+            </ion-badge>
         </ion-tab-button>
 
     </ion-tab-bar>

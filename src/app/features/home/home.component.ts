@@ -80,14 +80,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   selectedItem(item: IBook) {
     if (this.seachFomat === "titre") {
-      this._bookFindedService.set(item);
+      const { id } = item;
+      console.log("===>", id);
       this.listItems = [];
-      this._router.navigate(["/pages/home/book-finded"]);
+      this._router.navigate(["/pages/home/book-finded", id]);
     } else {
+      console.log("authos??>", item);
       this.listItems = [];
-      this._router.navigate(["/pages/home/author-finded"], {
-        queryParams: { author: item }
-      });
+      this._router.navigate(["/pages/home/author-finded", item]);
     }
   }
 

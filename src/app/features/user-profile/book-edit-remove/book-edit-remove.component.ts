@@ -5,8 +5,10 @@ import { Subscription } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
+import { IInterest } from "src/app/interfaces/IInterest";
 import { BooksService } from "src/app/services/books/books.service";
 import { CameraService } from "src/app/services/camera/camera.service";
+import { InterestService } from "src/app/services/interest/interest.service";
 import { UserBooksService } from "src/app/services/user-books/user-books.service";
 
 @Component({
@@ -21,6 +23,8 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
   categories: ICategory[];
   imageUrl: string;
 
+  interests: IInterest[];
+
   subscription: Subscription;
 
   constructor(
@@ -29,7 +33,8 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _bookservice: BooksService,
     private _cameraService: CameraService,
-    private _router: Router
+    private _router: Router,
+    private _interestService: InterestService
   ) {}
 
   // Si relance mil fois////////////////////////////////////
@@ -46,6 +51,7 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     this._route.paramMap.subscribe((bookId) => {
       const id = bookId.get("id");
       this._userBookService.getUserBookById(id);
+      this._interestService.getListInterstsByBookId(id);
     });
 
     // Unsubscribe ///////////////////////////////////////
@@ -57,9 +63,11 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
       )
       .subscribe((book) => (this.selectedBook$ = book));
 
-    this.form.patchValue(this.selectedBook$);
-
     this._getCategories();
+
+    this._interestService.interest$
+      .pipe(tap((response) => console.log("interEdit: ", response)))
+      .subscribe((res: any) => (this.interests = res));
   }
 
   async _getCategories() {

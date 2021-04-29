@@ -11,8 +11,11 @@
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>
-                    <ion-row class="ion-justify-content-center">
-                        <p>{{ book.title.substr(0, 25) }}</p>
+                    <ion-row class="ion-justify-content-center ion-margin-top">
+                        <ion-label>{{ book.title.substr(0, 25) }}</ion-label>
+                        <ion-badge *ngIf="book.interests > 0" color="success">
+                            <ion-icon name="alert-sharp"></ion-icon>
+                        </ion-badge>
                     </ion-row>
                 </ion-grid>
             </ion-slide>

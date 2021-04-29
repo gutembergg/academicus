@@ -7,5 +7,5 @@ export interface IBook {
   publisher: string;
   categoryId?: string;
   offer?: string;
-  interestId?: string;
+  interests?: number;
 }

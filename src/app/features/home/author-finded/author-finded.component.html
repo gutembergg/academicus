@@ -12,19 +12,19 @@
         <ion-grid fixed>
             <ion-row class="ion-justify-content-center">
                 <ion-text color="primary">
-                    <h1>{{ author.author }}</h1>
+                    <h1>{{ author }}</h1>
                 </ion-text>
             </ion-row>
         </ion-grid>
 
         <ion-slides [options]="slideOpts">
             <ion-slide *ngFor="let book of (authorBooks | async)">
-                <ion-grid (click)="selectBook(book)" fixed>
+                <ion-grid (click)="selectBook(book.id)" fixed>
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>
                     <ion-row class="ion-justify-content-center">
-                        <p>{{ book.title.substr(0, 25) }}</p>
+                        <p>{{ book?.title.substr(0, 25) }}</p>
                     </ion-row>
                 </ion-grid>
             </ion-slide>

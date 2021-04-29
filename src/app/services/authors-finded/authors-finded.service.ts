@@ -23,7 +23,7 @@ export class AuthorsFindedService {
       ref.where("authors", "==", `${author}`)
     );
     this.colections
-      .valueChanges()
+      .valueChanges({ idField: "id" })
       .subscribe((response: any) => this.authorSujectData$.next(response));
   }
 

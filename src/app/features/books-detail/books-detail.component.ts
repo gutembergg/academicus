@@ -52,7 +52,8 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       authors: this.theBook.authors ? this.theBook.authors : "",
       image: this.theBook.image,
       publisher: this.theBook.publisher ? this.theBook.publisher : "",
-      offer: value
+      offer: value,
+      interests: 0
     };
 
     this._firestore.createBook(this.newBook);

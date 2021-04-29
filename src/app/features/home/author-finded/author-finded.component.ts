@@ -35,19 +35,19 @@ export class AuthorFindedComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this._route.queryParams.subscribe((response) => {
-      this.author = response;
-      this._authorsFindedService.getBooksByAuthor(response.author);
+    this._route.paramMap.subscribe((author) => {
+      const id = author.get("id");
+      this.author = id;
+      this._authorsFindedService.getBooksByAuthor(id);
     });
 
-    this.authorBooks = this._authorsFindedService.get();
+    this.authorBooks = this._authorsFindedService.booksByAuthor$;
 
     this.subscription = this.authorBooks.subscribe();
   }
 
-  selectBook(book: IBook) {
-    this._bookFindedService.set(book);
-    this._router.navigate(["/pages/home/book-finded"]);
+  selectBook(bookId: string) {
+    this._router.navigate(["/pages/home/book-finded", bookId]);
   }
 
   ngOnDestroy(): void {
