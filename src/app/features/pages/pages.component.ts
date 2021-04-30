@@ -20,7 +20,6 @@ export class PagesComponent implements OnInit {
     this._authService.onAuthStateChanged(async (user) => {
       this.user = user;
       if (user) {
-        console.log("isUsewr");
         await this._userBookService.getUserBooks();
 
         this._userBookService.bookInterest$.subscribe(

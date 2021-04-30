@@ -18,8 +18,9 @@
         <ion-text color="primary">
             <h4>{{ categorySelected?.name ? categorySelected?.name : defaultCategory?.name }}</h4>
         </ion-text>
+
         <ion-slides [options]="slideOpts">
-            <ion-slide *ngFor="let book of booksPerCategory$">
+            <ion-slide *ngFor="let book of (booksPerCategory$ | async)">
 
                 <ion-grid fixed (click)="findedBook(book.id)">
                     <ion-row class="ion-justify-content-center">

@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection
 } from "@angular/fire/firestore";
 import { BehaviorSubject, Observable } from "rxjs";
-import { first, map } from "rxjs/operators";
+import { first, map, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 
@@ -73,17 +73,13 @@ export class BooksService {
       });
   }
 
-  //Revoir cette function ////////////////////////////////////////7
-  async getBooksByCategory(category: ICategory) {
-    const result = await this.books$.pipe(first()).toPromise();
-
-    const bookByCategory = result.filter(
-      (response: IBook) => response.categoryId === category.name
+  getBooksByCategory$(category: ICategory) {
+    return this.books$.pipe(
+      map((books) =>
+        books.filter((book: IBook) => book.categoryId === category.name)
+      ),
+      tap((response) => this.categorySujet$.next(response))
     );
-
-    this.categorySujet$.next(bookByCategory);
-
-    return bookByCategory;
   }
 
   getCategories() {

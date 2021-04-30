@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { first } from "rxjs/operators";
+import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 import { BookFindedService } from "src/app/services/book-finded/book-finded.service";
@@ -56,17 +56,12 @@ export class CategoriesComponent implements OnInit {
   selectCategory(category) {
     this.categorySelected = category;
 
-    this._firestore
-      .getBooksByCategory(this.categorySelected)
-      .then((response) => (this.booksPerCategory$ = response))
-      .catch((error) => console.log("error: ", error));
-
-    /* this.booksPerCategory$ = this._firestore.booksBycategory$; */
+    this.booksPerCategory$ = this._firestore
+      .getBooksByCategory$(category)
+      .pipe(tap((res) => console.log("res", res)));
   }
 
   findedBook(bookId: string) {
-    console.log("bookId: ", bookId);
-    /*  this._findedBook.set(book); */
     this._router.navigate(["/pages/home/book-finded", bookId]);
   }
 

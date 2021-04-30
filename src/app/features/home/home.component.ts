@@ -81,7 +81,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedItem(item: IBook) {
     if (this.seachFomat === "titre") {
       const { id } = item;
-      console.log("===>", id);
       this.listItems = [];
       this._router.navigate(["/pages/home/book-finded", id]);
     } else {

@@ -42,8 +42,9 @@ export class UserBooksService {
         map((response) =>
           response.map((res) => {
             const data = res.payload.doc.data();
+            const type = res.type;
             const id = res.payload.doc.id;
-            return { id, ...data };
+            return { id, ...data, type };
           })
         )
       )
@@ -52,7 +53,14 @@ export class UserBooksService {
           (book) => !newData.find((newBook) => newBook.id === book.id)
         );
 
-        const newState = [...currentState, ...newData];
+        const newState = [
+          ...currentState,
+          ...newData.filter((data) => data.type !== "removed")
+        ].map((book) => {
+          delete book.type;
+
+          return book;
+        });
         console.log("User book New List", newState);
 
         newState.map((book) => {
@@ -77,7 +85,7 @@ export class UserBooksService {
       .collection("books")
       .doc(id)
       .delete()
-      .then((response) => console.log("book deleted"))
+      .then((response) => console.log("delete Function"))
       .catch((error) => console.log("Error: ", error));
   }
 }

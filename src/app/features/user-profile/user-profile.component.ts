@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { NavigationExtras, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
@@ -75,7 +75,11 @@ export class UserProfileComponent implements OnInit {
 
     this._bookService.set(this.bookSelected);
 
-    this._router.navigate(["/pages/book-detail"]);
+    const navigationData: NavigationExtras = {
+      queryParams: this.bookSelected
+    };
+
+    this._router.navigate(["/pages/book-detail"], navigationData);
   }
 
   toggleBookForm() {

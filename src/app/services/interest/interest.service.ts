@@ -46,7 +46,6 @@ export class InterestService {
             const data = res.payload.doc.data();
             const id = res.payload.doc.id;
 
-            console.log("payload: ", data);
             return { id, ...data };
           })
         )
