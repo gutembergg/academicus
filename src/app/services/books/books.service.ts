@@ -124,7 +124,7 @@ export class BooksService {
       .collection("books")
       .doc(id)
       .delete()
-      .then((response) => console.log("book deleted"))
+      .then((response) => response)
       .catch((error) => console.log("Error: ", error));
   }
 }
