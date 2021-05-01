@@ -12,9 +12,6 @@ import { ICategory } from "src/app/interfaces/ICategory";
   providedIn: "root"
 })
 export class BooksService {
-  subjectData$: BehaviorSubject<any> = new BehaviorSubject(null);
-  book$: Observable<IBook> = this.subjectData$.asObservable();
-
   booksSubject$: BehaviorSubject<any> = new BehaviorSubject([]);
   books$: Observable<any[]> = this.booksSubject$.asObservable();
 
@@ -26,8 +23,13 @@ export class BooksService {
   categorySujet$: BehaviorSubject<any> = new BehaviorSubject(null);
   booksBycategory$: Observable<any> = this.categorySujet$.asObservable();
 
+  _researchedBooks: BehaviorSubject<any> = new BehaviorSubject([]);
+  researchedBooks$: Observable<any> = this._researchedBooks.asObservable();
+
   constructor(private _firestore: AngularFirestore) {
-    this.colections = this._firestore.collection("books");
+    this.colections = this._firestore.collection("books", (ref) =>
+      ref.where("researched", "==", false)
+    );
     this.colections
       .stateChanges(["added", "modified", "removed"])
       .pipe(
@@ -51,6 +53,28 @@ export class BooksService {
     this.categories$ = this._firestore
       .collection<ICategory>("categories")
       .valueChanges();
+
+    this._firestore
+      .collection<IBook>("books", (ref) => ref.where("researched", "==", true))
+      .stateChanges(["added", "modified", "removed"])
+      .pipe(
+        map((response) =>
+          response.map((res) => {
+            const data = res.payload.doc.data();
+            const id = res.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      )
+      .subscribe((newList) => {
+        const currentList = this._researchedBooks.value.filter(
+          (book) => !newList.find((newB) => newB.id === book.id)
+        );
+
+        const newState = [...currentList, ...newList];
+
+        this._researchedBooks.next(newState);
+      });
   }
 
   /*   private _updateState(res: any[]): void {
@@ -84,14 +108,6 @@ export class BooksService {
 
   getCategories() {
     return this.categories$;
-  }
-
-  set(book: IBook) {
-    return this.subjectData$.next(book);
-  }
-
-  get() {
-    return this.book$;
   }
 
   updateBook({ id, ...data }) {

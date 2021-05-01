@@ -35,7 +35,7 @@ export class UserBooksService {
 
     this._firestore
       .collection<IBook>("books", (ref) =>
-        ref.where("userId", "==", `${userID}`)
+        ref.where("userId", "==", `${userID}`).where("researched", "==", false)
       )
       .stateChanges(["added", "modified", "removed"])
       .pipe(
@@ -65,7 +65,9 @@ export class UserBooksService {
 
         newState.map((book) => {
           if (book.interests > 0) {
-            this._bookInterest$.next(book.interests);
+            console.log("interest: ", book.interests);
+
+            this._bookInterest$.next(true);
           }
         });
 

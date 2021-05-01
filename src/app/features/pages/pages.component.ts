@@ -22,9 +22,10 @@ export class PagesComponent implements OnInit {
       if (user) {
         await this._userBookService.getUserBooks();
 
-        this._userBookService.bookInterest$.subscribe(
-          (res) => (this.interestesBook = res)
-        );
+        this._userBookService.bookInterest$.subscribe((res) => {
+          console.log("this.interestesBook: ", this.interestesBook);
+          this.interestesBook = res;
+        });
       }
     });
   }

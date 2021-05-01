@@ -8,4 +8,5 @@ export interface IBook {
   categoryId?: string;
   offer?: string;
   interests?: number;
+  researched?: boolean;
 }

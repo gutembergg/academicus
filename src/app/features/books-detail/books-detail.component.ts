@@ -41,7 +41,6 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   }
 
   async registerBook$() {
-    console.log("form: ", this.form.value);
     const userID = await this._angularAuth.currentUser.then(
       (response) => response.uid
     );
@@ -55,38 +54,8 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       publisher: this.theBook.publisher ? this.theBook.publisher : "",
       categoryId: this.form.value.category,
       offer: this.form.value.offer,
-      interests: 0
-    };
-
-    this._firestore.createBook(this.newBook);
-  }
-
-  /*  selectCategory($event) {
-    this.newBook = {
-      ...this.newBook,
-      categoryId: $event.target.value
-    };
-  } */
-
-  async registerBook(value: string) {
-    if (this.newBook.categoryId === undefined || value === "") {
-      alert("Remplissez tout les champs");
-      return;
-    }
-
-    const userID = await this._angularAuth.currentUser.then(
-      (response) => response.uid
-    );
-
-    this.newBook = {
-      ...this.newBook,
-      userId: userID,
-      title: this.theBook.title ? this.theBook.title : "",
-      authors: this.theBook.authors ? this.theBook.authors : "",
-      image: this.theBook.image,
-      publisher: this.theBook.publisher ? this.theBook.publisher : "",
-      offer: value,
-      interests: 0
+      interests: 0,
+      researched: false
     };
 
     this._firestore.createBook(this.newBook);

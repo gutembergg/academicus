@@ -73,8 +73,6 @@ export class UserProfileComponent implements OnInit {
       publisher: book.volumeInfo.publisher
     };
 
-    this._bookService.set(this.bookSelected);
-
     const navigationData: NavigationExtras = {
       queryParams: this.bookSelected
     };
@@ -99,7 +97,8 @@ export class UserProfileComponent implements OnInit {
       ...this.form.value,
       userId: userID,
       image: this.photoUrl,
-      interests: 0
+      interests: 0,
+      researched: false
     };
 
     this._bookService.createBook(_book);
