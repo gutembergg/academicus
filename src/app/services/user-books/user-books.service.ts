@@ -61,7 +61,6 @@ export class UserBooksService {
 
           return book;
         });
-        console.log("User book New List", newState);
 
         newState.map((book) => {
           if (book.interests > 0) {
@@ -89,5 +88,22 @@ export class UserBooksService {
       .delete()
       .then((response) => console.log("delete Function"))
       .catch((error) => console.log("Error: ", error));
+
+    this._firestore
+      .collection("interest", (ref) => ref.where("bookId", "==", id))
+      .valueChanges({ idField: "id" })
+      .pipe(
+        tap((interests) => {
+          interests.map((item) =>
+            this._firestore
+              .collection("interest")
+              .doc(item.id)
+              .delete()
+              .then((response) => console.log("Interet deleted!!"))
+              .catch((error) => console.log("error: ", error))
+          );
+        })
+      )
+      .subscribe((res) => res);
   }
 }

@@ -23,7 +23,6 @@ export class PagesComponent implements OnInit {
         await this._userBookService.getUserBooks();
 
         this._userBookService.bookInterest$.subscribe((res) => {
-          console.log("this.interestesBook: ", this.interestesBook);
           this.interestesBook = res;
         });
       }

@@ -13,9 +13,8 @@
                     </ion-row>
                     <ion-row class="ion-justify-content-center ion-margin-top">
                         <ion-label>{{ book.title.substr(0, 25) }}</ion-label>
-                        <ion-badge *ngIf="book.interests > 0" color="success">
-                            <ion-icon name="alert-sharp"></ion-icon>
-                        </ion-badge>
+                        <ion-icon *ngIf="book.interests > 0" size="large" name="alert-circle-sharp" color="success">
+                        </ion-icon>
                     </ion-row>
                 </ion-grid>
             </ion-slide>

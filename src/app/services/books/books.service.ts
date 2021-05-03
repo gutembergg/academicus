@@ -20,7 +20,7 @@ export class BooksService {
   categories$: Observable<ICategory[]>;
   booksBycategory: any;
 
-  categorySujet$: BehaviorSubject<any> = new BehaviorSubject(null);
+  categorySujet$: BehaviorSubject<any> = new BehaviorSubject([]);
   booksBycategory$: Observable<any> = this.categorySujet$.asObservable();
 
   _researchedBooks: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -37,15 +37,24 @@ export class BooksService {
           response.map((res) => {
             const data = res.payload.doc.data();
             const id = res.payload.doc.id;
-            return { id, ...data };
+            const type = res.type;
+            return { id, ...data, type };
           })
         )
       )
       .subscribe((newData) => {
         const currentState = this.booksSubject$.value.filter(
-          (product) => !newData.find((newP) => newP.id === product.id)
+          (book) => !newData.find((newP) => newP.id === book.id)
         );
-        const newState = [...currentState, ...newData];
+
+        const newState = [
+          ...currentState,
+          ...newData.filter((book) => book.type !== "removed")
+        ].map((data) => {
+          delete data.type;
+
+          return data;
+        });
 
         this.booksSubject$.next(newState);
       });
@@ -62,7 +71,8 @@ export class BooksService {
           response.map((res) => {
             const data = res.payload.doc.data();
             const id = res.payload.doc.id;
-            return { id, ...data };
+            const type = res.type;
+            return { id, ...data, type };
           })
         )
       )
@@ -71,7 +81,15 @@ export class BooksService {
           (book) => !newList.find((newB) => newB.id === book.id)
         );
 
-        const newState = [...currentList, ...newList];
+        console.log("book removed reseached true!!!!!!!!!");
+        const newState = [
+          ...currentList,
+          ...newList.filter((book) => book.type !== "removed")
+        ].map((data) => {
+          delete data.type;
+
+          return data;
+        });
 
         this._researchedBooks.next(newState);
       });
