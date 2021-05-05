@@ -99,8 +99,9 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     this._router.navigate(["pages/user-profile"]);
   }
 
-  deleteInterest(inetestId: string) {
-    this._interestService.deleteInteret(inetestId);
+  deleteInterest(inetestId: string, bookId: string) {
+    console.log("booId: ", bookId);
+    this._interestService.deleteInteret(inetestId, bookId);
   }
 
   ngOnDestroy(): void {

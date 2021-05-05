@@ -23,6 +23,9 @@ export class UserBooksService {
   _bookInterest$: BehaviorSubject<any> = new BehaviorSubject(null);
   bookInterest$: Observable<any> = this._bookInterest$.asObservable();
 
+  _researchedBooks$: BehaviorSubject<any> = new BehaviorSubject([]);
+  researchedBooks$: Observable<any> = this._researchedBooks$.asObservable();
+
   constructor(
     private _firestore: AngularFirestore,
     private _angularAuth: AngularFireAuth
@@ -105,5 +108,45 @@ export class UserBooksService {
         })
       )
       .subscribe((res) => res);
+  }
+
+  async getUserResearchedBooks() {
+    const userID = await this._angularAuth.currentUser.then(
+      (response) => response.uid
+    );
+    this._firestore
+      .collection<IBook>("books", (ref) =>
+        ref.where("userId", "==", userID).where("researched", "==", true)
+      )
+      .stateChanges(["added", "removed", "modified"])
+      .pipe(
+        map((books) =>
+          books.map((book) => {
+            const data = book.payload.doc.data();
+            const type = book.type;
+            const id = book.payload.doc.id;
+
+            return { id, ...data, type };
+          })
+        )
+      )
+      .subscribe((newData: any) => {
+        const currentState = this._researchedBooks$.value.filter(
+          (book) => !newData.find((bk) => bk.id === book.id)
+        );
+
+        const newState = [
+          ...currentState,
+          ...newData.filter((book) => book.type !== "removed")
+        ].map((data) => {
+          delete data.type;
+
+          return data;
+        });
+
+        this._researchedBooks$.next(newState);
+
+        return newState;
+      });
   }
 }

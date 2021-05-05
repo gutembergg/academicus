@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map, takeLast, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { IInterest } from "src/app/interfaces/IInterest";
 
@@ -28,21 +28,24 @@ export class InterestService {
         this._firestore
           .collection<IBook>("books")
           .doc(bookId)
-          .valueChanges({ idField: "id" })
-          .pipe(tap((book) => console.log("====>", book.interests)))
-          .subscribe((res) => res);
+          .get()
+          .pipe(
+            tap((book) => {
+              const result = book.data();
+              const countIterests = (result.interests += 1);
 
-        this.getInterestsCount(bookId)
-          .pipe(tap((res) => console.log("----", res)))
+              this._firestore.collection("books").doc(bookId).update({
+                interests: countIterests
+              });
+            })
+          )
           .subscribe((res) => res);
-
-        this._firestore.collection("books").doc(bookId).update({
-          interests: 1
-        });
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
+
+    console.log("this.interestsCount", this.interestsCount);
   }
 
   getInterestsCount(bookId: string) {
@@ -88,12 +91,28 @@ export class InterestService {
       });
   }
 
-  deleteInteret(interetId: string) {
+  deleteInteret(interetId: string, bookId: string) {
     this._firestore
       .collection("interest")
       .doc(interetId)
       .delete()
-      .then((response) => console.log("Interest deleted"))
+      .then((response) => {
+        this._firestore
+          .collection<IBook>("books")
+          .doc(bookId)
+          .get()
+          .pipe(
+            tap((book) => {
+              const result = book.data();
+              const countIterests = (result.interests -= 1);
+
+              this._firestore.collection("books").doc(bookId).update({
+                interests: countIterests
+              });
+            })
+          )
+          .subscribe((res) => res);
+      })
       .catch((error) => console.log("Error: ", error));
   }
 }

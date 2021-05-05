@@ -42,7 +42,6 @@ export class CategoriesComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    //revoir //////////////////////////////////
     this.categoryList$ = this._firestore.getCategories();
     const dafaultCategories = await this.categoryList$
       .pipe(first())
@@ -58,7 +57,7 @@ export class CategoriesComponent implements OnInit {
 
     this.booksPerCategory$ = this._firestore
       .getBooksByCategory$(category)
-      .pipe(tap((res) => console.log("res", res)));
+      .pipe(tap((res) => res));
   }
 
   findedBook(bookId: string) {

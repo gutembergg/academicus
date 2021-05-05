@@ -23,8 +23,8 @@ export class BooksService {
   categorySujet$: BehaviorSubject<any> = new BehaviorSubject([]);
   booksBycategory$: Observable<any> = this.categorySujet$.asObservable();
 
-  _researchedBooks: BehaviorSubject<any> = new BehaviorSubject([]);
-  researchedBooks$: Observable<any> = this._researchedBooks.asObservable();
+  _researchedBooks$: BehaviorSubject<any> = new BehaviorSubject([]);
+  researchedBooks$: Observable<any> = this._researchedBooks$.asObservable();
 
   constructor(private _firestore: AngularFirestore) {
     this.colections = this._firestore.collection("books", (ref) =>
@@ -77,11 +77,10 @@ export class BooksService {
         )
       )
       .subscribe((newList) => {
-        const currentList = this._researchedBooks.value.filter(
+        const currentList = this._researchedBooks$.value.filter(
           (book) => !newList.find((newB) => newB.id === book.id)
         );
 
-        console.log("book removed reseached true!!!!!!!!!");
         const newState = [
           ...currentList,
           ...newList.filter((book) => book.type !== "removed")
@@ -91,7 +90,8 @@ export class BooksService {
           return data;
         });
 
-        this._researchedBooks.next(newState);
+        this._researchedBooks$.next(newState);
+        return newState;
       });
   }
 

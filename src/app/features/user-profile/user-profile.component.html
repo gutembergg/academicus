@@ -40,6 +40,17 @@
                     </ion-col>
 
                     <ion-col size="12">
+                        <ion-segment (ionChange)="segmentChanged($event)" value="offer">
+                            <ion-segment-button value="offer">
+                                <ion-label>J'offre</ion-label>
+                            </ion-segment-button>
+                            <ion-segment-button value="request">
+                                <ion-label>Je recherche</ion-label>
+                            </ion-segment-button>
+                        </ion-segment>
+                    </ion-col>
+
+                    <ion-col size="12">
                         <ion-item>
                             <ion-button (click)="takePhoto()" expand="block">
                                 Photo

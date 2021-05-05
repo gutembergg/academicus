@@ -29,6 +29,7 @@ export class UserProfileComponent implements OnInit {
   photoUrl: any;
   toggleForm = false;
   form: FormGroup;
+  formFormat: string;
 
   constructor(
     private _apiService: ApiBooksService,
@@ -98,7 +99,7 @@ export class UserProfileComponent implements OnInit {
       userId: userID,
       image: this.photoUrl,
       interests: 0,
-      researched: false
+      researched: this.formFormat === "offer" ? false : true
     };
 
     this._bookService.createBook(_book);
@@ -107,5 +108,10 @@ export class UserProfileComponent implements OnInit {
 
   getEvent($event) {
     this.booksList = [];
+  }
+
+  segmentChanged($event) {
+    this.formFormat = $event.target.value;
+    console.log("event: ", $event);
   }
 }

@@ -1,21 +1,22 @@
 <ion-content>
+
     <div class="block_list">
         <ion-text color="primary">
             <h1>Recherchés</h1>
         </ion-text>
+
         <ion-slides [options]="slideOpts">
-            <ion-slide *ngFor="let book of (researchedBook$ | async)" (click)="selecteBook(book.id)">
+            <ion-slide *ngFor="let book of _researchedBooks$" (click)="selecteBook(book.id)">
                 <ion-grid fixed>
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>
                     <ion-row class="ion-justify-content-center">
-                        <p>{{ book.title }}</p>
+                        <p>{{book.title}} </p>
                     </ion-row>
                 </ion-grid>
             </ion-slide>
         </ion-slides>
 
     </div>
-
 </ion-content>

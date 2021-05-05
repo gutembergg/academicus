@@ -19,6 +19,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   categoryList$: Observable<ICategory[]>;
 
   form: FormGroup;
+  formFormat: string;
 
   constructor(
     private _firestore: BooksService,
@@ -40,6 +41,11 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  segmentChanged($event: any) {
+    this.formFormat = $event.target.value;
+    console.log("event: ", $event.target.value);
+  }
+
   async registerBook$() {
     const userID = await this._angularAuth.currentUser.then(
       (response) => response.uid
@@ -55,7 +61,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       categoryId: this.form.value.category,
       offer: this.form.value.offer,
       interests: 0,
-      researched: false
+      researched: this.formFormat === "offer" ? false : true
     };
 
     this._firestore.createBook(this.newBook);

@@ -37,7 +37,7 @@
         </ion-row>
     </ion-grid>
 
-    <ion-segment value="offer">
+    <ion-segment (ionChange)="segmentChanged($event)" value="offer">
         <ion-segment-button value="offer">
             <ion-label>J'offre</ion-label>
         </ion-segment-button>

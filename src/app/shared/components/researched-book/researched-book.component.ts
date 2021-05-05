@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
   selector: "app-researched-book",
@@ -17,7 +19,15 @@ export class ResearchedBookComponent implements OnInit {
     }
   };
 
-  constructor() {}
+  researchedBook$: any;
 
-  ngOnInit(): void {}
+  constructor(private _bookService: BooksService, private _router: Router) {}
+
+  ngOnInit(): void {
+    this.researchedBook$ = this._bookService.researchedBooks$;
+  }
+
+  selecteBook(bookId: string) {
+    this._router.navigate(["/pages/home/book-finded", bookId]);
+  }
 }
