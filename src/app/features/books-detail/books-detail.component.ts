@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { Observable, Subscription } from "rxjs";
+import { tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 import { BooksService } from "src/app/services/books/books.service";
@@ -17,10 +18,17 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   theBook: any;
   newBook: IBook = {} as IBook;
   subscription: Subscription;
+  subscription2: Subscription;
   categoryList$: Observable<ICategory[]>;
 
   form: FormGroup;
   formFormat = "offer";
+
+  formCtr: FormGroup;
+
+  subCategory$: Observable<any>;
+  formSubCategories: any;
+  isSubCategory: boolean;
 
   constructor(
     private _firestore: BooksService,
@@ -31,6 +39,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   ) {
     this.form = this._formBuilder.group({
       category: ["", Validators.required],
+      subcategory: [""],
       offer: ["", Validators.required]
     });
   }
@@ -63,12 +72,14 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       categoryId: this.form.value.category,
       offer: this.form.value.offer,
       interests: 0,
-      researched: this.formFormat === "offer" ? false : true
+      researched: this.formFormat === "offer" ? false : true,
+      subcategory: this.form.value.subcategory
     };
 
-    this._firestore.createBook(this.newBook);
+    console.log("form", this.newBook);
+    /*    this._firestore.createBook(this.newBook);
     this.displayPopUp();
-    this.form.reset();
+    this.form.reset(); */
   }
 
   async displayPopUp() {
@@ -82,7 +93,27 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
     await toast.present();
   }
 
+  getSubcategory($event) {
+    this.formSubCategories = $event.detail.value;
+    this.subCategoriesList($event.detail.value);
+  }
+
+  subCategoriesList(subcategory: string) {
+    this._firestore.getSubCategories(subcategory);
+    this.subCategory$ = this._firestore.subCategories$;
+
+    this.subscription2 = this._firestore.subCategories$
+      .pipe(
+        tap(
+          (response) =>
+            (this.isSubCategory = response.length > 0 ? false : true)
+        )
+      )
+      .subscribe((res) => res);
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

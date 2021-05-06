@@ -9,4 +9,5 @@ export interface IBook {
   offer?: string;
   interests?: number;
   researched?: boolean;
+  subcategory?: string;
 }

@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { first, map, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
+import { ISubCategorie } from "src/app/interfaces/ISubCategorie";
 
 @Injectable({
   providedIn: "root"
@@ -26,7 +27,12 @@ export class BooksService {
   _researchedBooks$: BehaviorSubject<any> = new BehaviorSubject([]);
   researchedBooks$: Observable<any> = this._researchedBooks$.asObservable();
 
+  category$: any;
+  _subCategories$: BehaviorSubject<any> = new BehaviorSubject([]);
+  subCategories$: Observable<any> = this._subCategories$.asObservable();
+
   constructor(private _firestore: AngularFirestore) {
+    //this.addCategory();
     this.colections = this._firestore.collection("books", (ref) =>
       ref.where("researched", "==", false)
     );
@@ -62,6 +68,30 @@ export class BooksService {
     this.categories$ = this._firestore
       .collection<ICategory>("categories")
       .valueChanges();
+
+    /* this.category$ = this._firestore
+      .collection<ICategory>("categorys")
+      .stateChanges(["added"])
+      .pipe(
+        map((response) =>
+          response
+            .map((res) => {
+              const data = res.payload.doc.data();
+              const id = res.payload.doc.id;
+              const type = res.type;
+              return { id, ...data, type };
+            })
+            .sort((a, b) => {
+              if (a.name < b.name) {
+                return -1;
+              }
+              if (a.name > b.name) {
+                return 1;
+              }
+              return 0;
+            })
+        )
+      ); */
 
     this._firestore
       .collection<IBook>("books", (ref) => ref.where("researched", "==", true))
@@ -103,6 +133,18 @@ export class BooksService {
     this._items$.next(newState);
   } */
 
+  ///////////////////////////////////////////////
+  addCategory() {
+    this._firestore
+      .collection("subcategories")
+      .add({
+        parent: "Ingénierie",
+        name: "Microtechnique"
+      })
+      .then((response) => console.log("Added category"));
+  }
+  //////////////////////////////////////////////////////
+
   createBook(book: IBook) {
     this._firestore
       .collection("books")
@@ -116,6 +158,8 @@ export class BooksService {
   }
 
   getBooksByCategory$(category: ICategory) {
+    console.log("category: ", category.name);
+    this.getSubCategories(category.name);
     return this.books$.pipe(
       map((books) =>
         books.filter((book: IBook) => book.categoryId === category.name)
@@ -124,9 +168,52 @@ export class BooksService {
     );
   }
 
+  /*  _getBooksByCategory$(id: string) {
+    return this.books$.pipe(
+      map((books) => books.filter((book: IBook) => book.categoryId === id)),
+      tap((response) => console.log("___>>>", response))
+    );
+  } */
+
   getCategories() {
     return this.categories$;
   }
+
+  getSubCategories(categoryName: string) {
+    this._firestore
+      .collection<ISubCategorie>("subcategories", (ref) =>
+        ref.where("parent", "==", categoryName)
+      )
+      .stateChanges(["added"])
+      .pipe(
+        map((response) =>
+          response.map((book) => {
+            const data = book.payload.doc.data();
+            const id = book.payload.doc.id;
+
+            console.log("sub: ", data);
+            return { id, ...data };
+          })
+        )
+      )
+      .subscribe((newData) =>
+        this._subCategories$.next(
+          newData.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          })
+        )
+      );
+  }
+
+  /*  getCategorys() {
+    return this.category$;
+  } */
 
   updateBook({ id, ...data }) {
     this._firestore

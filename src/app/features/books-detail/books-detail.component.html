@@ -53,9 +53,21 @@
                     <ion-list>
                         <ion-item>
                             <ion-label>Categories</ion-label>
-                            <ion-select formControlName="category" okText="Okay" cancelText="Dismiss" required>
-                                <ion-select-option *ngFor="let category of (categoryList$ | async); let i=index"
+                            <ion-select (ionChange)="getSubcategory($event)" formControlName="category" okText="Okay"
+                                cancelText="Dismiss" required>
+                                <ion-select-option *ngFor="let category of (categoryList$ | async)"
                                     [value]="category.name">
+                                    {{ category.name }}
+                                </ion-select-option>
+                            </ion-select>
+
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Sub categories</ion-label>
+                            <ion-select formControlName="subcategory" [disabled]="isSubCategory" okText="Okay"
+                                cancelText="Dismiss" required>
+                                <ion-select-option *ngFor="let category of (subCategory$ | async ); let i=index"
+                                    [value]="category.id">
                                     {{ category.name }}
                                 </ion-select-option>
                             </ion-select>

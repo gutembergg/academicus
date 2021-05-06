@@ -12,6 +12,17 @@
                 <ion-label>{{ cat.name }}</ion-label>
             </ion-segment-button>
         </ion-segment>
+
+        <!-- /////////////////////////////////////////////////////////////////////// -->
+        <!-- <ion-segment color="academicus-green" [value]="_defaultCategory" scrollable>
+            <ion-segment-button (click)="_selectCategory(cat.id)" [value]="cat.id"
+                *ngFor="let cat of (categoriesList$ | async); let i = index">
+                <ion-icon name="{{ cat.icon }}"></ion-icon>
+                <ion-label>{{ cat.name }}</ion-label>
+            </ion-segment-button>
+        </ion-segment> -->
+        <!-- /////////////////////////////////////////////////////////////////////// -->
+
     </div>
 
     <div class="block_list">
@@ -32,6 +43,12 @@
                 </ion-grid>
             </ion-slide>
         </ion-slides>
+        <ion-segment mode="md" color="academicus-green" [value]="defaultCategory" scrollable>
+            <ion-segment-button [value]="subCat.id" *ngFor="let subCat of (subCategories$ | async); let i = index">
+
+                <ion-label>{{ subCat.name }}</ion-label>
+            </ion-segment-button>
+        </ion-segment>
     </div>
 
     <app-researched-book></app-researched-book>
