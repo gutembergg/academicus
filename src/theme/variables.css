@@ -4,3 +4,20 @@
 
 /* To quickly generate your own theme, check out the color generator */
 /* https://ionicframework.com/docs/theming/color-generator */
+:root {
+  --ion-color-academicus-green: #006600;
+  --ion-color-academicus-green-rgb: 0, 102, 0;
+  --ion-color-academicus-green-contrast: #ffffff;
+  --ion-color-academicus-green-contrast-rgb: 255, 255, 255;
+  --ion-color-academicus-green-shade: #005a00;
+  --ion-color-academicus-green-tint: #1a751a;
+}
+
+.ion-color-academicus-green {
+  --ion-color-base: var(--ion-color-academicus-green);
+  --ion-color-base-rgb: var(--ion-color-academicus-green-rgb);
+  --ion-color-contrast: var(--ion-color-academicus-green-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-academicus-green-contrast-rgb);
+  --ion-color-shade: var(--ion-color-academicus-green-shade);
+  --ion-color-tint: var(--ion-color-academicus-green-tint);
+}

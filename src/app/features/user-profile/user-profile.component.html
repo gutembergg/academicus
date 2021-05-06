@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
         <ion-title>Profile</ion-title>
     </ion-toolbar>
@@ -8,7 +8,8 @@
     <p>Cherchez votre livre ou ajouter vous même</p>
     <ion-searchbar (ionClear)="getEvent($event)" #search type="text"></ion-searchbar>
 
-    <ion-button (click)="getApibooks(search.value)" color="primary" expand="block" fill="solid">Valider</ion-button>
+    <ion-button (click)="getApibooks(search.value)" color="academicus-green" expand="block" fill="solid">Valider
+    </ion-button>
 
     <ion-list>
         <ion-item (click)="seletedBook(book)" *ngFor="let book of booksList">
@@ -27,20 +28,20 @@
         </ion-item>
     </ion-list>
 
-    <ion-button (click)="toggleBookForm()" color="primary" expand="block">Enregister moi même</ion-button>
+    <ion-button (click)="toggleBookForm()" color="academicus-green" expand="block">Enregister moi même</ion-button>
 
     <div *ngIf="toggleForm">
         <ion-grid fixed>
             <ion-row>
                 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="formSubmit">
                     <ion-col size="12">
-                        <ion-text color="primary">
+                        <ion-text color="academicus-green">
                             <h4>Ajouter livre</h4>
                         </ion-text>
                     </ion-col>
 
                     <ion-col size="12">
-                        <ion-segment (ionChange)="segmentChanged($event)" value="offer">
+                        <ion-segment color="academicus-green" (ionChange)="segmentChanged($event)" value="offer">
                             <ion-segment-button value="offer">
                                 <ion-label>J'offre</ion-label>
                             </ion-segment-button>
@@ -52,7 +53,7 @@
 
                     <ion-col size="12">
                         <ion-item>
-                            <ion-button (click)="takePhoto()" expand="block">
+                            <ion-button color="academicus-green" (click)="takePhoto()" expand="block">
                                 Photo
                             </ion-button>
                         </ion-item>
@@ -99,7 +100,7 @@
                     </ion-col>
 
                     <ion-col size="12">
-                        <ion-button expand="block" type="submit" class="btn">
+                        <ion-button color="academicus-green" expand="block" type="submit" class="btn">
                             Valider
                         </ion-button>
                     </ion-col>

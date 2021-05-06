@@ -1,5 +1,5 @@
 <ion-tabs>
-    <ion-tab-bar *ngIf="user" slot="bottom">
+    <ion-tab-bar color="academicus-green" *ngIf="user" slot="bottom">
 
         <ion-tab-button tab="home">
             <ion-icon name="home"></ion-icon>
@@ -9,7 +9,7 @@
         <ion-tab-button tab="user-profile">
             <ion-icon name="person-circle-outline"></ion-icon>
             <ion-label>profile</ion-label>
-            <ion-badge *ngIf="interestesBook" color="success">
+            <ion-badge *ngIf="interestesBook || interestesBookResearched" color="primary">
                 <ion-icon name="alert-sharp"></ion-icon>
             </ion-badge>
         </ion-tab-button>

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { ToastController } from "@ionic/angular";
 import { Observable, Subscription } from "rxjs";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
@@ -19,13 +20,14 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   categoryList$: Observable<ICategory[]>;
 
   form: FormGroup;
-  formFormat: string;
+  formFormat = "offer";
 
   constructor(
     private _firestore: BooksService,
     private _angularAuth: AngularFireAuth,
     private _route: ActivatedRoute,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    public _toast: ToastController
   ) {
     this.form = this._formBuilder.group({
       category: ["", Validators.required],
@@ -65,6 +67,19 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
     };
 
     this._firestore.createBook(this.newBook);
+    this.displayPopUp();
+    this.form.reset();
+  }
+
+  async displayPopUp() {
+    const toast = await this._toast.create({
+      message: `Livre enregistré avec success`,
+      position: "bottom",
+      keyboardClose: true,
+      color: "dark",
+      duration: 2000
+    });
+    await toast.present();
   }
 
   ngOnDestroy(): void {

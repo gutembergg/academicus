@@ -44,8 +44,6 @@ export class InterestService {
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
-
-    console.log("this.interestsCount", this.interestsCount);
   }
 
   getInterestsCount(bookId: string) {

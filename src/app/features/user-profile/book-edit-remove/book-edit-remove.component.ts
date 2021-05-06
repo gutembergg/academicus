@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ToastController } from "@ionic/angular";
 import { Subscription } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
@@ -34,7 +35,8 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     private _bookservice: BooksService,
     private _cameraService: CameraService,
     private _router: Router,
-    private _interestService: InterestService
+    private _interestService: InterestService,
+    public _toast: ToastController
   ) {}
 
   // Si relance mil fois////////////////////////////////////
@@ -92,6 +94,7 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     };
 
     this._bookservice.updateBook(formValues);
+    this.displayPopUp();
   }
 
   deleteBook(id: string) {
@@ -102,6 +105,17 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
   deleteInterest(inetestId: string, bookId: string) {
     console.log("booId: ", bookId);
     this._interestService.deleteInteret(inetestId, bookId);
+  }
+
+  async displayPopUp() {
+    const toast = await this._toast.create({
+      message: `Enregistré avec success`,
+      position: "bottom",
+      keyboardClose: true,
+      color: "dark",
+      duration: 2000
+    });
+    await toast.present();
   }
 
   ngOnDestroy(): void {

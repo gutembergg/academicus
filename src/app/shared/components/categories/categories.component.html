@@ -1,11 +1,11 @@
 <ion-content>
 
     <div class="block">
-        <ion-text color="primary">
+        <ion-text color="academicus-green">
             <h1>Categories</h1>
         </ion-text>
 
-        <ion-segment [value]="defaultCategory" scrollable>
+        <ion-segment color="academicus-green" [value]="defaultCategory" scrollable>
             <ion-segment-button (click)="selectCategory(cat)" [value]="cat.name"
                 *ngFor="let cat of (categoryList$ | async); let i = index">
                 <ion-icon name="{{ cat.icon }}"></ion-icon>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="block_list">
-        <ion-text color="primary">
+        <ion-text color="academicus-green">
             <h4>{{ categorySelected?.name ? categorySelected?.name : defaultCategory?.name }}</h4>
         </ion-text>
 

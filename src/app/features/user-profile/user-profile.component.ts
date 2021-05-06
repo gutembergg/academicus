@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NavigationExtras, Router } from "@angular/router";
+import { ToastController } from "@ionic/angular";
 import { first } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
@@ -29,7 +30,7 @@ export class UserProfileComponent implements OnInit {
   photoUrl: any;
   toggleForm = false;
   form: FormGroup;
-  formFormat: string;
+  formFormat = "offer";
 
   constructor(
     private _apiService: ApiBooksService,
@@ -37,7 +38,8 @@ export class UserProfileComponent implements OnInit {
     private _bookService: BooksService,
     public cameraService: CameraService,
     private _formBuilder: FormBuilder,
-    private _angularAuth: AngularFireAuth
+    private _angularAuth: AngularFireAuth,
+    public _toast: ToastController
   ) {}
 
   async ngOnInit() {
@@ -103,7 +105,20 @@ export class UserProfileComponent implements OnInit {
     };
 
     this._bookService.createBook(_book);
+    this.form.reset();
+    this.displayPopUp();
     this.toggleForm = false;
+  }
+
+  async displayPopUp() {
+    const toast = await this._toast.create({
+      message: `Livre enregistré avec success`,
+      position: "bottom",
+      keyboardClose: true,
+      color: "dark",
+      duration: 2000
+    });
+    await toast.present();
   }
 
   getEvent($event) {

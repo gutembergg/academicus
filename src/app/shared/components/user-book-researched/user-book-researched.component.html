@@ -1,7 +1,7 @@
 <ion-content>
 
     <div class="block_list">
-        <ion-text color="primary">
+        <ion-text>
             <h1>Recherchés</h1>
         </ion-text>
 
@@ -11,8 +11,10 @@
                     <ion-row class="ion-justify-content-center">
                         <img class="img_book" [src]="book.image" alt="test">
                     </ion-row>
-                    <ion-row class="ion-justify-content-center">
-                        <p>{{book.title}} </p>
+                    <ion-row class="ion-justify-content-center ion-margin-top">
+                        <ion-label>{{ book.title.substr(0, 25) }}</ion-label>
+                        <ion-icon *ngIf="book.interests > 0" size="large" name="alert-circle-sharp" color="success">
+                        </ion-icon>
                     </ion-row>
                 </ion-grid>
             </ion-slide>

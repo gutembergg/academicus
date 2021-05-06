@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { SwUpdate } from "@angular/service-worker";
-import { Plugins } from "@capacitor/core";
 import { ToastController } from "@ionic/angular";
 
 @Component({

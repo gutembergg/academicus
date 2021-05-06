@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { ToastController } from "@ionic/angular";
 import { Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
@@ -21,7 +22,8 @@ export class BookFindedComponent implements OnInit, OnDestroy {
     private _bookFindedService: BookFindedService,
     private _formBuilder: FormBuilder,
     private _inerestService: InterestService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    public _toast: ToastController
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +48,19 @@ export class BookFindedComponent implements OnInit, OnDestroy {
       bookId: this.book.id
     };
     this._inerestService.createInterest(_interest);
+    this.displayPopUp();
+    this.form.reset();
+  }
+
+  async displayPopUp() {
+    const toast = await this._toast.create({
+      message: `Livre enregistré avec success`,
+      position: "bottom",
+      keyboardClose: true,
+      color: "dark",
+      duration: 2000
+    });
+    await toast.present();
   }
 
   ngOnDestroy(): void {

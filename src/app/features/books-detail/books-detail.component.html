@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
@@ -37,7 +37,7 @@
         </ion-row>
     </ion-grid>
 
-    <ion-segment (ionChange)="segmentChanged($event)" value="offer">
+    <ion-segment color="academicus-green" (ionChange)="segmentChanged($event)" value="offer">
         <ion-segment-button value="offer">
             <ion-label>J'offre</ion-label>
         </ion-segment-button>
@@ -72,7 +72,7 @@
             </ion-row>
             <ion-row>
                 <ion-col>
-                    <ion-button type="submit" expand="full">Enregister</ion-button>
+                    <ion-button color="academicus-green" type="submit" expand="full">Enregister</ion-button>
                 </ion-col>
             </ion-row>
         </form>
