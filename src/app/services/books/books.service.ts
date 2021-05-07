@@ -3,6 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from "@angular/fire/firestore";
+import { IonBackButton } from "@ionic/angular";
 import { BehaviorSubject, Observable } from "rxjs";
 import { first, map, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
@@ -31,8 +32,10 @@ export class BooksService {
   _subCategories$: BehaviorSubject<any> = new BehaviorSubject([]);
   subCategories$: Observable<any> = this._subCategories$.asObservable();
 
+  _booksSubCategory$: BehaviorSubject<any> = new BehaviorSubject([]);
+  booksSubCategory$: Observable<any> = this._booksSubCategory$.asObservable();
+
   constructor(private _firestore: AngularFirestore) {
-    //this.addCategory();
     this.colections = this._firestore.collection("books", (ref) =>
       ref.where("researched", "==", false)
     );
@@ -93,6 +96,7 @@ export class BooksService {
         )
       ); */
 
+    //All Books researched=true /////////////////////////////////////////////////////
     this._firestore
       .collection<IBook>("books", (ref) => ref.where("researched", "==", true))
       .stateChanges(["added", "modified", "removed"])
@@ -133,8 +137,9 @@ export class BooksService {
     this._items$.next(newState);
   } */
 
-  ///////////////////////////////////////////////
-  addCategory() {
+  ////Add categories and subcategory in database///////////////////////////////////////////
+
+  /*   addCategory() {
     this._firestore
       .collection("subcategories")
       .add({
@@ -142,7 +147,7 @@ export class BooksService {
         name: "Microtechnique"
       })
       .then((response) => console.log("Added category"));
-  }
+  } */
   //////////////////////////////////////////////////////
 
   createBook(book: IBook) {
@@ -158,7 +163,6 @@ export class BooksService {
   }
 
   getBooksByCategory$(category: ICategory) {
-    console.log("category: ", category.name);
     this.getSubCategories(category.name);
     return this.books$.pipe(
       map((books) =>
@@ -191,7 +195,6 @@ export class BooksService {
             const data = book.payload.doc.data();
             const id = book.payload.doc.id;
 
-            console.log("sub: ", data);
             return { id, ...data };
           })
         )
@@ -210,6 +213,50 @@ export class BooksService {
         )
       );
   }
+
+  _getBooksBySubCategory(id: string) {
+    return this.books$.pipe(
+      map((books: any) => books.filter((book) => book.subcategory === id)),
+      tap((response) => this._booksSubCategory$.next(response))
+    );
+  }
+  /*
+  getBooksBySubCategory(subCategoryId: string) {
+    this._firestore
+      .collection<IBook>("books", (ref) =>
+        ref.where("subcategory", "==", subCategoryId)
+      )
+      .stateChanges(["added", "modified", "removed"])
+      .pipe(
+        map((books) =>
+          books.map((book) => {
+            const data = book.payload.doc.data();
+            const type = book.type;
+            const id = book.payload.doc.id;
+
+            console.log("getBooksBySubCategory: ", data);
+            return { id, ...data, type };
+          })
+        )
+      )
+      .subscribe((newData) => {
+        const currentState = this._booksSubCategory$.value.filter(
+          (book) => !newData.find((newBook) => newBook.id === book.id)
+        );
+
+        const newState = [
+          ...currentState,
+          ...newData.filter((book) => book.type !== "removed")
+        ].map((data) => {
+          delete data.type;
+
+          return data;
+        });
+
+        this._booksSubCategory$.next(newState);
+        return newState;
+      });
+  } */
 
   /*  getCategorys() {
     return this.category$;

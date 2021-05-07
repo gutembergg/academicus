@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { first, tap } from "rxjs/operators";
+import { first, map, tap } from "rxjs/operators";
+import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 import { BookFindedService } from "src/app/services/book-finded/book-finded.service";
 import { BooksService } from "src/app/services/books/books.service";
@@ -39,6 +40,10 @@ export class CategoriesComponent implements OnInit {
 
   /*  categoriesList$: any; */
   subCategories$: Observable<any>;
+  selectedSubCategory$: any;
+  defaultSubCategory: any;
+
+  isSubCategory: any;
 
   constructor(
     private _firestore: BooksService,
@@ -57,30 +62,25 @@ export class CategoriesComponent implements OnInit {
     this.selectCategory(this.defaultCategory);
 
     this.subCategories$ = this._firestore.subCategories$;
-
-    ////////////////////////////////////////////////////////////////
-    /* this.categoriesList$ = this._firestore.getCategorys();
-
-    const defaultCategory = await this.categoriesList$
-      .pipe(
-        first(),
-        tap((bookCat) => console.log("bookCat", bookCat))
-      )
-      .toPromise();
-
-    this._defaultCategory = defaultCategory[0];
-    this.selectCategory(this._defaultCategory); */
-
-    ///////////////////////////////////////////////////////////////
   }
 
-  selectCategory(category) {
+  async selectCategory(category) {
     this.categorySelected = category;
 
     this.booksPerCategory$ = this._firestore
       .getBooksByCategory$(category)
-      .pipe(tap((res) => res));
+      .pipe(tap((res) => console.log("selelCat:===> ", res)));
+
+    ///Select SubCategory///////////////////////////////////////////
+    this._firestore.getSubCategories(category.name);
+    this._firestore.subCategories$
+      .pipe(tap((res) => console.log((this.isSubCategory = res.length))))
+      .subscribe((response) => {
+        this.selectSubcategory(response[0]?.id);
+      });
   }
+
+  /// Refactoring////////////////////////////////////
   /*  _selectCategory(id: string) {
     this.booksPerCategory$ = this._firestore
       ._getBooksByCategory$(id)
@@ -89,6 +89,15 @@ export class CategoriesComponent implements OnInit {
 
   findedBook(bookId: string) {
     this._router.navigate(["/pages/home/book-finded", bookId]);
+  }
+
+  selectSubcategory(subCategoryId: string) {
+    if (subCategoryId) {
+      this._firestore
+        ._getBooksBySubCategory(subCategoryId)
+        .pipe((res) => res)
+        .subscribe((books) => (this.selectedSubCategory$ = books));
+    }
   }
 
   async loadData($event) {

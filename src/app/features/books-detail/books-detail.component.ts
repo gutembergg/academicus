@@ -29,6 +29,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   subCategory$: Observable<any>;
   formSubCategories: any;
   isSubCategory: boolean;
+  selectedSubCategory: string;
 
   constructor(
     private _firestore: BooksService,
@@ -39,7 +40,6 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   ) {
     this.form = this._formBuilder.group({
       category: ["", Validators.required],
-      subcategory: [""],
       offer: ["", Validators.required]
     });
   }
@@ -73,13 +73,12 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       offer: this.form.value.offer,
       interests: 0,
       researched: this.formFormat === "offer" ? false : true,
-      subcategory: this.form.value.subcategory
+      subcategory: this.selectedSubCategory
     };
 
-    console.log("form", this.newBook);
-    /*    this._firestore.createBook(this.newBook);
+    this._firestore.createBook(this.newBook);
     this.displayPopUp();
-    this.form.reset(); */
+    this.form.reset();
   }
 
   async displayPopUp() {
@@ -91,6 +90,11 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       duration: 2000
     });
     await toast.present();
+  }
+
+  selectSubCategory($event) {
+    this.selectedSubCategory = $event.detail.value;
+    console.log("event: ", this.selectedSubCategory);
   }
 
   getSubcategory($event) {

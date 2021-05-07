@@ -43,12 +43,27 @@
                 </ion-grid>
             </ion-slide>
         </ion-slides>
-        <ion-segment mode="md" color="academicus-green" [value]="defaultCategory" scrollable>
-            <ion-segment-button [value]="subCat.id" *ngFor="let subCat of (subCategories$ | async); let i = index">
+        <ion-segment *ngIf="(subCategories$ | async)" mode="md" color="academicus-green" scrollable>
+            <ion-segment-button (click)="selectSubcategory(subCat.id)" [value]="subCat.id"
+                *ngFor="let subCat of (subCategories$ | async); let i = index">
 
                 <ion-label>{{ subCat.name }}</ion-label>
             </ion-segment-button>
+
         </ion-segment>
+        <ion-slides *ngIf="isSubCategory > 0" [options]="slideOpts">
+            <ion-slide *ngFor="let book of selectedSubCategory$">
+
+                <ion-grid fixed (click)="findedBook(book.id)">
+                    <ion-row class="ion-justify-content-center">
+                        <img class="img_book" [src]="book.image" alt="book">
+                    </ion-row>
+                    <ion-row class="ion-justify-content-center">
+                        <p>{{ book.title.substr(0, 25) }}</p>
+                    </ion-row>
+                </ion-grid>
+            </ion-slide>
+        </ion-slides>
     </div>
 
     <app-researched-book></app-researched-book>
