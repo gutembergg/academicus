@@ -75,7 +75,7 @@
 
                     <ion-col size="12">
                         <ion-item>
-                            <ion-label position="stacked">Editeur</ion-label>
+                            <ion-label position="stacked">Edition</ion-label>
                             <ion-input formControlName="publisher"></ion-input>
                         </ion-item>
                     </ion-col>
@@ -90,9 +90,22 @@
                     <ion-col size="12">
                         <ion-item>
                             <ion-label>Categories</ion-label>
-                            <ion-select formControlName="categoryId" okText="Ok" cancelText="Cancel">
+                            <ion-select (ionChange)="_selectedCategory($event)" formControlName="categoryId" okText="Ok"
+                                cancelText="Cancel">
                                 <ion-select-option *ngFor="let category of categoriesList" [value]="category.name">
                                     {{ category.name }}
+                                </ion-select-option>
+
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="12">
+                        <ion-item>
+                            <ion-label>Sub-categories</ion-label>
+                            <ion-select (ionChange)="selecteSubCategory($event)" [disabled]="isSubCategory" okText="Ok"
+                                cancelText="Cancel">
+                                <ion-select-option *ngFor="let subCat of (subCategory$ | async)" [value]="subCat.id">
+                                    {{ subCat.name }}
                                 </ion-select-option>
 
                             </ion-select>

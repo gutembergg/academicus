@@ -7,6 +7,7 @@ import { Observable, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
+import { ISubCategorie } from "src/app/interfaces/ISubCategorie";
 import { BooksService } from "src/app/services/books/books.service";
 
 @Component({
@@ -21,6 +22,8 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
   subscription2: Subscription;
   categoryList$: Observable<ICategory[]>;
 
+  subCategoryList$: Observable<ISubCategorie[]>;
+
   form: FormGroup;
   formFormat = "offer";
 
@@ -28,7 +31,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
 
   subCategory$: Observable<any>;
   formSubCategories: any;
-  isSubCategory: boolean;
+  isSubCategory = true;
   selectedSubCategory: string;
 
   constructor(
@@ -73,7 +76,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
       offer: this.form.value.offer,
       interests: 0,
       researched: this.formFormat === "offer" ? false : true,
-      subcategory: this.selectedSubCategory
+      subcategory: this.selectedSubCategory ? this.selectedSubCategory : ""
     };
 
     this._firestore.createBook(this.newBook);
@@ -94,7 +97,6 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
 
   selectSubCategory($event) {
     this.selectedSubCategory = $event.detail.value;
-    console.log("event: ", this.selectedSubCategory);
   }
 
   getSubcategory($event) {

@@ -35,6 +35,8 @@ export class BooksService {
   _booksSubCategory$: BehaviorSubject<any> = new BehaviorSubject([]);
   booksSubCategory$: Observable<any> = this._booksSubCategory$.asObservable();
 
+  subCategoriesList: Observable<ISubCategorie[]>;
+
   constructor(private _firestore: AngularFirestore) {
     this.colections = this._firestore.collection("books", (ref) =>
       ref.where("researched", "==", false)
@@ -68,9 +70,15 @@ export class BooksService {
         this.booksSubject$.next(newState);
       });
 
+    //Get Categories ////////////////////////////////////////////////////
     this.categories$ = this._firestore
       .collection<ICategory>("categories")
       .valueChanges();
+
+    //Get Sub-categories /////////////////////////////////////////////////
+    this.subCategoriesList = this._firestore
+      .collection<ISubCategorie>("subcategories")
+      .valueChanges({ idField: "id" });
 
     /* this.category$ = this._firestore
       .collection<ICategory>("categorys")
@@ -181,6 +189,10 @@ export class BooksService {
 
   getCategories() {
     return this.categories$;
+  }
+
+  getSubCategories$() {
+    return this.subCategoriesList;
   }
 
   getSubCategories(categoryName: string) {

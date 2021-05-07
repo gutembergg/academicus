@@ -67,8 +67,6 @@ export class UserBooksService {
 
         newState.map((book) => {
           if (book.interests > 0) {
-            console.log("interest: ", book.interests);
-
             this._bookInterest$.next(true);
           }
         });

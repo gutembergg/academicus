@@ -4,7 +4,7 @@
             <ion-button [ngStyle]="{'display': (user && 'none')}" [routerLink]="['/pages/login']"
                 routerLinkActive="router-link-active" color="primary" expand="block" fill="solid">Login</ion-button>
             <ion-button *ngIf="user" (click)="signOut()" color="danger" expand="block" fill="solid">
-                SignOut
+                Logout
             </ion-button>
         </ion-buttons>
 

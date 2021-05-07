@@ -69,12 +69,12 @@ export class CategoriesComponent implements OnInit {
 
     this.booksPerCategory$ = this._firestore
       .getBooksByCategory$(category)
-      .pipe(tap((res) => console.log("selelCat:===> ", res)));
+      .pipe(tap((res) => res));
 
     ///Select SubCategory///////////////////////////////////////////
     this._firestore.getSubCategories(category.name);
     this._firestore.subCategories$
-      .pipe(tap((res) => console.log((this.isSubCategory = res.length))))
+      .pipe(tap((res) => (this.isSubCategory = res.length)))
       .subscribe((response) => {
         this.selectSubcategory(response[0]?.id);
       });
