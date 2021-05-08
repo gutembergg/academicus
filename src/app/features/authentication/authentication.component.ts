@@ -21,7 +21,7 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit(): void {
     this.form = this._formBuider.group({
       email: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", [Validators.required, Validators.minLength(6)]]
     });
 
     this._platforme.backButton.subscribeWithPriority(666666, () =>

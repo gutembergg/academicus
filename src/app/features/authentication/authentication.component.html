@@ -1,3 +1,14 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+
+        <ion-title color="academicus-green">
+            <ion-icon class="icon" name="school-sharp" size="large"></ion-icon>
+            UNILivres
+        </ion-title>
+
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
 
     <div class="container_page">
@@ -5,22 +16,28 @@
             <form [formGroup]="form" (ngSubmit)="authentication()">
                 <ion-row>
                     <ion-col size="12">
-                        <ion-text color="primary" class="ion-text-center">
+                        <ion-text color="academicus-green" class="ion-text-center">
                             <h1>Login</h1>
                         </ion-text>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col size="12">
-                        <ion-input formControlName="email" color="primary" placeholder="Email"></ion-input>
+                        <ion-item>
+                            <ion-input formControlName="email" placeholder="Email"></ion-input>
+                        </ion-item>
                     </ion-col>
                     <ion-col size="12">
-                        <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+                        <ion-item>
+                            <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+                        </ion-item>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col size="12">
-                        <button class="btn_login" expand="block">Login</button>
+                        <ion-button type="submit" [disabled]="form.invalid" color="academicus-green" class="btn_login"
+                            expand="block">Login
+                        </ion-button>
                     </ion-col>
                 </ion-row>
                 <ion-row>
