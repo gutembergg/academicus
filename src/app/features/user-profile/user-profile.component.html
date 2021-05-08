@@ -5,7 +5,10 @@
 </ion-header>
 
 <ion-content>
-    <p>Cherchez votre livre ou ajouter vous même</p>
+
+    <ion-text>
+        <p class="ion-text-center">Cherchez par le titre du livre ou enregistrer vous même</p>
+    </ion-text>
     <ion-searchbar (ionClear)="getEvent($event)" #search type="text"></ion-searchbar>
 
     <ion-button (click)="getApibooks(search.value)" color="academicus-green" expand="block" fill="solid">Valider
