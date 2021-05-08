@@ -82,6 +82,8 @@ export class UserProfileComponent implements OnInit {
       publisher: book.volumeInfo.publisher
     };
 
+    this.booksList = [];
+
     const navigationData: NavigationExtras = {
       queryParams: this.bookSelected
     };
