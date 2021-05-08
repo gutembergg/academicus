@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { IBook } from "src/app/interfaces/IBook";
 import { ICategory } from "src/app/interfaces/ICategory";
 import { IInterest } from "src/app/interfaces/IInterest";
+import { ISubCategorie } from "src/app/interfaces/ISubCategorie";
 import { BooksService } from "src/app/services/books/books.service";
 import { CameraService } from "src/app/services/camera/camera.service";
 import { InterestService } from "src/app/services/interest/interest.service";
@@ -27,6 +28,11 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
   interests: IInterest[];
 
   subscription: Subscription;
+
+  isSubCategory = false;
+  subCategory$: Observable<ISubCategorie>;
+  formSubCategories: any;
+  selectedSubCategory: string;
 
   constructor(
     private _userBookService: UserBooksService,
@@ -68,7 +74,7 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     this._getCategories();
 
     this._interestService.interest$
-      .pipe(tap((response) => console.log("interEdit: ", response)))
+      .pipe(tap((response) => response))
       .subscribe((res: any) => (this.interests = res));
   }
 
@@ -90,7 +96,8 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     const formValues = {
       ...this.form.value,
       id: this._bookId,
-      image: this.imageUrl
+      image: this.imageUrl,
+      subcategory: this.selectedSubCategory ? this.selectedSubCategory : ""
     };
 
     this._bookservice.updateBook(formValues);
@@ -116,6 +123,29 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
       duration: 2000
     });
     await toast.present();
+  }
+
+  selectSubCategory($event) {
+    this.selectedSubCategory = $event.detail.value;
+  }
+
+  getSubcategory($event) {
+    this.formSubCategories = $event.detail.value;
+    this.subCategoriesList($event.detail.value);
+  }
+
+  subCategoriesList(subcategory: string) {
+    this._bookservice.getSubCategories(subcategory);
+    this.subCategory$ = this._bookservice.subCategories$;
+
+    this._bookservice.subCategories$
+      .pipe(
+        tap(
+          (response) =>
+            (this.isSubCategory = response.length > 0 ? false : true)
+        )
+      )
+      .subscribe((res) => res);
   }
 
   ngOnDestroy(): void {

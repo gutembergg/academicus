@@ -108,7 +108,7 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
     this._firestore.getSubCategories(subcategory);
     this.subCategory$ = this._firestore.subCategories$;
 
-    this.subscription2 = this._firestore.subCategories$
+    this._firestore.subCategories$
       .pipe(
         tap(
           (response) =>
@@ -120,6 +120,5 @@ export class BooksDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
   }
 }

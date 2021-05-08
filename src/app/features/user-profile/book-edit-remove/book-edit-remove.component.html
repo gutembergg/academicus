@@ -84,10 +84,19 @@
             <ion-card-content>
                 <ion-item>
                     <ion-label>Categories</ion-label>
-                    <ion-select [placeholder]="selectedBook$?.categoryId" formControlName="category"
-                        [value]="selectedBook$?.categoryId" okText="Ok" cancelText="Cancel">
+                    <ion-select (ionChange)="getSubcategory($event)" [placeholder]="selectedBook$?.categoryId"
+                        formControlName="category" [value]="selectedBook$?.categoryId" okText="Ok" cancelText="Cancel">
                         <ion-select-option *ngFor="let category of categories" [value]="category.name">
                             {{ category.name }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Sub-categories</ion-label>
+                    <ion-select (ionChange)="selectSubCategory($event)" [disabled]="isSubCategory" okText="Okay"
+                        cancelText="Dismiss">
+                        <ion-select-option *ngFor="let subCat of (subCategory$ | async)">
+                            {{ subCat.name }}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>
