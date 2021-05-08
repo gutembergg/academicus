@@ -50,7 +50,7 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
     this.form = this._formBuilder.group({
       title: ["", Validators.required],
       authors: ["", Validators.required],
-      publisher: ["", Validators.required],
+      publisher: [""],
       image: [""],
       offer: ["", Validators.required],
       category: ["", Validators.required]
