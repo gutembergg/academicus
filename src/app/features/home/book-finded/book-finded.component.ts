@@ -54,7 +54,7 @@ export class BookFindedComponent implements OnInit, OnDestroy {
 
   async displayPopUp() {
     const toast = await this._toast.create({
-      message: `Livre enregistré avec success`,
+      message: `Envoyé avec success`,
       position: "bottom",
       keyboardClose: true,
       color: "dark",

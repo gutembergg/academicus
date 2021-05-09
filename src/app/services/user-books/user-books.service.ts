@@ -20,7 +20,7 @@ export class UserBooksService {
   _bookDetail$: BehaviorSubject<any> = new BehaviorSubject(null);
   bookDetail$: Observable<any> = this._bookDetail$.asObservable();
 
-  _bookInterest$: BehaviorSubject<any> = new BehaviorSubject(null);
+  _bookInterest$: BehaviorSubject<any> = new BehaviorSubject(false);
   bookInterest$: Observable<any> = this._bookInterest$.asObservable();
 
   _researchedBooks$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -47,6 +47,7 @@ export class UserBooksService {
             const data = res.payload.doc.data();
             const type = res.type;
             const id = res.payload.doc.id;
+
             return { id, ...data, type };
           })
         )
@@ -64,6 +65,8 @@ export class UserBooksService {
 
           return book;
         });
+
+        this._bookInterest$.next(false);
 
         newState.map((book) => {
           if (book.interests > 0) {

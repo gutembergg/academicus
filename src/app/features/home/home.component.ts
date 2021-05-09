@@ -75,7 +75,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   segmentChanged($event: any) {
     this.seachFomat = $event.target.value;
-    console.log("event", $event.target.value);
   }
 
   selectedItem(item: IBook) {
@@ -84,7 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.listItems = [];
       this._router.navigate(["/pages/home/book-finded", id]);
     } else {
-      console.log("authos??>", item);
       this.listItems = [];
       this._router.navigate(["/pages/home/author-finded", item]);
     }

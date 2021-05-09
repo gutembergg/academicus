@@ -25,9 +25,11 @@ export class PagesComponent implements OnInit {
       if (user) {
         await this._userBookService.getUserBooks();
 
-        this._userBookService.bookInterest$.subscribe((res) => {
-          this.interestesBook = res;
-        });
+        this._userBookService.bookInterest$
+          .pipe(tap((response) => console.log("Interest: ", response)))
+          .subscribe((res) => {
+            this.interestesBook = res;
+          });
 
         this._userBookService.getUserResearchedBooks().then((books) =>
           this._userBookService.researchedBooks$

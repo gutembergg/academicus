@@ -110,7 +110,6 @@ export class BookEditRemoveComponent implements OnInit, OnDestroy {
   }
 
   deleteInterest(inetestId: string, bookId: string) {
-    console.log("booId: ", bookId);
     this._interestService.deleteInteret(inetestId, bookId);
   }
 
