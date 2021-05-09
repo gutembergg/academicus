@@ -26,7 +26,7 @@ export class PagesComponent implements OnInit {
         await this._userBookService.getUserBooks();
 
         this._userBookService.bookInterest$
-          .pipe(tap((response) => console.log("Interest: ", response)))
+          .pipe(tap((response) => response))
           .subscribe((res) => {
             this.interestesBook = res;
           });
